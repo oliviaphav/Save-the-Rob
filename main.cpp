@@ -2,6 +2,8 @@
 #include <iostream>
 #include <math.h>
 #include "robot.hpp"
+#include "support.hpp"
+#include "laser.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
 
@@ -31,15 +33,6 @@ int main()
     sprite.setScale(4.f, 4.f);
     sf::Clock timer;
 
-    sf::CircleShape shape(750);
-    shape.setFillColor(sf::Color::Transparent);
-
-    shape.setOutlineThickness(10);
-    shape.setOutlineColor(sf::Color(250, 150, 100));
-
-
-
-
     // Sprite coordinates
     int x=window.getSize().x/2.;
     int y=window.getSize().y/2.;
@@ -54,9 +47,17 @@ int main()
 
     int angle=0;
     Robot* rob = new Robot();
+    Support* support = new Support();
+    Laser* laser1 = new Laser();
 
-    sf::RectangleShape line(sf::Vector2f(150, 5));
-    //line.rotate(angle);
+    sf::RectangleShape line(sf::Vector2f(laser1->longueur, laser1->largeur));
+    line.rotate(laser1->angle);
+
+    sf::CircleShape shape(support->rayon);
+    shape.setFillColor(sf::Color::Transparent);
+
+    shape.setOutlineThickness(10);
+    shape.setOutlineColor(sf::Color(250, 50, 50));
 
 
     while (window.isOpen())
@@ -66,7 +67,6 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-        }
 
         // If a key is pressed
           if (event.type == sf::Event::KeyPressed)
@@ -82,7 +82,7 @@ int main()
               case sf::Keyboard::Left:    leftFlag=true; break;
               case sf::Keyboard::Right:   rightFlag=true; break;
               case sf::Keyboard::A:       AFlag=true; printf("A\n");break;
-              //case sf::Keyboard::Q:       QFlag=true; break;
+              case sf::Keyboard::Q:       QFlag=true; break;
               default : break;
               }
           }
@@ -99,13 +99,14 @@ int main()
                 case sf::Keyboard::Left:    leftFlag=false; break;
                 case sf::Keyboard::Right:   rightFlag=false; break;
                 case sf::Keyboard::A:       AFlag=false; break;
-                //case sf::Keyboard::Q:       QFlag=false; break;
+                case sf::Keyboard::Q:       QFlag=false; break;
                 default : break;
                 }
             }
+      }
 
         rob->move(&x,&y,upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
-        rob->move_line(&angle,AFlag, QFlag, &line);
+        support->move_line(&angle,AFlag, QFlag, &line);
 
 
         // Check screen boundaries
@@ -118,8 +119,8 @@ int main()
         // Rotate and draw the sprite
         sprite.setTextureRect(rectSourceSprite);
         sprite.setPosition(x,y);
-        shape.setPosition(300,50);
-        line.setPosition(50,50);
+        shape.setPosition(support->x,support->y);
+        line.setPosition(support->x_laser_1,support->y_laser_1);
 
         window.draw(fond);
         window.draw(sprite);

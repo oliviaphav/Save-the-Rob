@@ -15,7 +15,6 @@ class Robot {
       vie=true;
     };
     void move(int* x, int* y, bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite);
-    void move_line(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line);
 
   private :
     float vitesse;

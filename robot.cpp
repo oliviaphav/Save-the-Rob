@@ -38,16 +38,3 @@ void Robot::move(int* x, int* y, bool upFlag, bool downFlag, bool leftFlag, bool
   }
 
 }
-
-void Robot::move_line(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line)
-{
-  if (AFlag)
-  {
-    line->rotate(*angle-10);
-  }
-
-  if (QFlag)
-  {
-    line->rotate(*angle+10);
-  }
-}
