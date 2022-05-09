@@ -2,6 +2,7 @@
 #include <iostream>
 #include <math.h>
 #include "robot.hpp"
+#include <SFML/Window/Keyboard.hpp>
 
 
 #define SPRITE_SPEED 1
@@ -30,6 +31,15 @@ int main()
     sprite.setScale(4.f, 4.f);
     sf::Clock timer;
 
+    sf::CircleShape shape(750);
+    shape.setFillColor(sf::Color::Transparent);
+
+    shape.setOutlineThickness(10);
+    shape.setOutlineColor(sf::Color(250, 150, 100));
+
+
+
+
     // Sprite coordinates
     int x=window.getSize().x/2.;
     int y=window.getSize().y/2.;
@@ -39,6 +49,14 @@ int main()
     bool downFlag=false;
     bool leftFlag=false;
     bool rightFlag=false;
+    bool AFlag=false;
+    bool QFlag=false;
+
+    int angle=0;
+    Robot* rob = new Robot();
+
+    sf::RectangleShape line(sf::Vector2f(150, 5));
+    //line.rotate(angle);
 
 
     while (window.isOpen())
@@ -59,10 +77,12 @@ int main()
               case  sf::Keyboard::Escape : window.close(); break;
 
               // Process the up, down, left and right keys
-              case sf::Keyboard::Up :     upFlag=true; break;
-              case sf::Keyboard::Down:    downFlag=true; break;
+              case sf::Keyboard::Up :     upFlag=true; printf("Up\n");break;
+              case sf::Keyboard::Down:    downFlag=true; printf("Down\n");break;
               case sf::Keyboard::Left:    leftFlag=true; break;
               case sf::Keyboard::Right:   rightFlag=true; break;
+              case sf::Keyboard::A:       AFlag=true; printf("A\n");break;
+              //case sf::Keyboard::Q:       QFlag=true; break;
               default : break;
               }
           }
@@ -78,54 +98,33 @@ int main()
                 case sf::Keyboard::Down:    downFlag=false; break;
                 case sf::Keyboard::Left:    leftFlag=false; break;
                 case sf::Keyboard::Right:   rightFlag=false; break;
+                case sf::Keyboard::A:       AFlag=false; break;
+                //case sf::Keyboard::Q:       QFlag=false; break;
                 default : break;
                 }
             }
 
-        // Update coordinates
-        /*if (leftFlag)
-        {
-          x-=SPRITE_SPEED;
-          rectSourceSprite.left=0;
-          rectSourceSprite.top=0;
+        rob->move(&x,&y,upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
+        rob->move_line(&angle,AFlag, QFlag, &line);
 
-        }
-        if (rightFlag)
-        {
-          x+=SPRITE_SPEED;
-          rectSourceSprite.left=128;
-          rectSourceSprite.top=98;
-        }
-        if (upFlag)
-        {
-          y-=SPRITE_SPEED;
-          rectSourceSprite.left=0;
-          rectSourceSprite.top=98;
-        }
-
-        if (downFlag)
-        {
-          y+=SPRITE_SPEED;
-          rectSourceSprite.left=0;
-          rectSourceSprite.top=98;
-
-        }*/
-
-        move(&x,&y,upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
 
         // Check screen boundaries
         if (x<0) x=0;
-        if (x>(int)window.getSize().x) x=window.getSize().x;
+        if (x>((int)window.getSize().x)-20) x=((window.getSize().x)-20);
         if (y<0) y=0;
-        if (y>(int)window.getSize().y) y=window.getSize().y;
+        if (y>((int)window.getSize().y)-20) y=((window.getSize().y)-20);
 
         window.clear();
         // Rotate and draw the sprite
         sprite.setTextureRect(rectSourceSprite);
         sprite.setPosition(x,y);
+        shape.setPosition(300,50);
+        line.setPosition(50,50);
 
         window.draw(fond);
         window.draw(sprite);
+        window.draw(shape);
+        window.draw(line);
         window.display();
       }
 

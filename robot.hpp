@@ -5,6 +5,25 @@
 #include <iostream>
 #include <math.h>
 
-void move(int* x, int* y, bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite);
+class Robot {
+  public :
+
+    Robot(){
+      x=0;
+      y=0;
+      vitesse=1;
+      vie=true;
+    };
+    void move(int* x, int* y, bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite);
+    void move_line(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line);
+
+  private :
+    float vitesse;
+    bool vie;
+    float x;
+    float y;
+
+};
+
 
 #endif

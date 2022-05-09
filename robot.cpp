@@ -1,10 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
+#include "robot.hpp"
 
 #define SPRITE_SPEED 1
 
-void move(int* x, int* y, bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite)
+void Robot::move(int* x, int* y, bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite)
 {
 
   // Update coordinates
@@ -36,4 +37,17 @@ void move(int* x, int* y, bool upFlag, bool downFlag, bool leftFlag, bool rightF
 
   }
 
+}
+
+void Robot::move_line(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line)
+{
+  if (AFlag)
+  {
+    line->rotate(*angle-10);
+  }
+
+  if (QFlag)
+  {
+    line->rotate(*angle+10);
+  }
 }
