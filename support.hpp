@@ -8,10 +8,10 @@
 class Support {
   public :
 
-    Support(){
-      rayon=750;
-      x=250;
-      y=20;
+    Support( float x, float y){
+      rayon=740;
+      this->x=x;
+      this->y=y;
       vitesse=1;
       angle=0;
       x_laser_1=1000;
@@ -20,7 +20,7 @@ class Support {
       y_laser_2=50;
     };
 
-    void rotation_support(float *x, float *y,int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line);
+    void rotation_support(int * angle, bool AFlag, bool QFlag, sf::CircleShape* shape);
     void move_line(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line);
 
   //private :

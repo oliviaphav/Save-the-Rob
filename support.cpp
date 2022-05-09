@@ -4,23 +4,19 @@
 #include <vector>
 #include "support.hpp"
 
-void Support::rotation_support(float *x, float *y,int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line)
+void Support::rotation_support(int * angle, bool AFlag, bool QFlag, sf::CircleShape* shape)
 {
-  //std::vector<int> matrice{ cos(*angle),sin(*angle),sin(*angle),-cos(*angle)};
+
   if (AFlag)
   {
-    *x= 200*cos(*angle-1);
-    *y= 200*sin(*angle-1);
-    line->rotate(*angle-1);
+    shape->rotate(*angle-1);
+
   }
 
   if (QFlag)
   {
-    *x= 200*cos(*angle+1);
-    *y= 200*sin(*angle+1);
-    line->rotate(*angle+1);
+    shape->rotate(*angle+1);
   }
-
 
 };
 

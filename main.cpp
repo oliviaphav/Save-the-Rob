@@ -19,8 +19,15 @@ int main()
     if (!texture.loadFromFile("ressources/fond.jpg"))
       return -1;
 
+
+
     sf::Texture texture1;
     if (!texture1.loadFromFile("ressources/robot.png"))
+      return -1;
+    texture1.setSmooth(true);
+
+    sf::Texture texture2;
+    if (!texture2.loadFromFile("ressources/support.jpg"))
       return -1;
     texture1.setSmooth(true);
 
@@ -38,6 +45,9 @@ int main()
     int x=window.getSize().x/2.;
     int y=window.getSize().y/2.;
 
+    int x_cer = window.getSize().x/2.;
+    int y_cer = 2;
+
 
 
     // Flags for key pressed
@@ -50,20 +60,26 @@ int main()
 
     int angle=0;
     Robot* rob = new Robot();
-    Support* support = new Support();
+    Support* support = new Support(window.getSize().x/2.,window.getSize().y/2.);
     Laser* laser1 = new Laser();
 
     sf::RectangleShape line(sf::Vector2f(laser1->longueur, laser1->largeur));
     line.rotate(laser1->angle);
 
     sf::CircleShape shape(support->rayon);
-    shape.setFillColor(sf::Color::Transparent);
+    //shape.setFillColor(sf::Color::Transparent);
+    shape.setTexture(&texture2);
+    shape.setTextureRect(sf::IntRect(300, 100, 1000, 1000));
+    shape.setOrigin(support->rayon,support->rayon);
 
-    shape.setOutlineThickness(10);
-    shape.setOutlineColor(sf::Color(250, 50, 50));
+    //shape.setOutlineThickness(10);
+    //shape.setOutlineColor(sf::Color(250, 50, 50));
 
     float x_laser_1 = support->x_laser_1;
     float y_laser_1 = support->y_laser_1;
+
+    sf::CircleShape cer(30);
+    cer.setFillColor(sf::Color(250, 50, 50));
 
 
     while (window.isOpen())
@@ -112,8 +128,9 @@ int main()
       }
 
         rob->move(&x,&y,upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
-        support->move_line(&angle,AFlag, QFlag, &line);
-        //support->rotation_support(&x_laser_1,&y_laser_1,&angle, AFlag, QFlag, &line);
+        //support->move_line(&angle,AFlag, QFlag, &line);
+
+        support->rotation_support(&angle, AFlag, QFlag, &shape);
 
 
         // Check screen boundaries
@@ -129,9 +146,12 @@ int main()
         shape.setPosition(support->x,support->y);
         line.setPosition(x_laser_1,y_laser_1);
 
+        cer.setPosition(x_cer,y_cer);
+
         window.draw(fond);
-        window.draw(sprite);
         window.draw(shape);
+        window.draw(cer);
+        window.draw(sprite);
         window.draw(line);
         window.display();
       }
