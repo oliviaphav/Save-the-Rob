@@ -20,7 +20,7 @@ class Support {
       y_laser_2=50;
     };
 
-    void rotation_support();
+    void rotation_support(float *x, float *y,int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line);
     void move_line(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line);
 
   //private :
@@ -28,7 +28,7 @@ class Support {
     float x;
     float y;
     int vitesse;
-    float angle;
+    double angle;
     float x_laser_1;
     float y_laser_1;
     float x_laser_2;

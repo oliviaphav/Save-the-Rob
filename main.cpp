@@ -5,15 +5,16 @@
 #include "support.hpp"
 #include "laser.hpp"
 #include <SFML/Window/Keyboard.hpp>
-
-
 #define SPRITE_SPEED 1
+
+#define DECALAGE 50
+#define WINDOW_WIDTH sf::VideoMode::getDesktopMode().width //Largeur de l'écran
+#define WINDOW_HEIGHT sf::VideoMode::getDesktopMode().height - DECALAGE //Hauteur de l'écran
+
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(2000, 2000), "Save the Rob !");
-    //sf::CircleShape shape(100.f);
-    //shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Save the Rob !");
     sf::Texture texture;
     if (!texture.loadFromFile("ressources/fond.jpg"))
       return -1;
@@ -37,6 +38,8 @@ int main()
     int x=window.getSize().x/2.;
     int y=window.getSize().y/2.;
 
+
+
     // Flags for key pressed
     bool upFlag=false;
     bool downFlag=false;
@@ -59,6 +62,9 @@ int main()
     shape.setOutlineThickness(10);
     shape.setOutlineColor(sf::Color(250, 50, 50));
 
+    float x_laser_1 = support->x_laser_1;
+    float y_laser_1 = support->y_laser_1;
+
 
     while (window.isOpen())
     {
@@ -77,11 +83,11 @@ int main()
               case  sf::Keyboard::Escape : window.close(); break;
 
               // Process the up, down, left and right keys
-              case sf::Keyboard::Up :     upFlag=true; printf("Up\n");break;
-              case sf::Keyboard::Down:    downFlag=true; printf("Down\n");break;
+              case sf::Keyboard::Up :     upFlag=true;break;
+              case sf::Keyboard::Down:    downFlag=true;break;
               case sf::Keyboard::Left:    leftFlag=true; break;
               case sf::Keyboard::Right:   rightFlag=true; break;
-              case sf::Keyboard::A:       AFlag=true; printf("A\n");break;
+              case sf::Keyboard::A:       AFlag=true;break;
               case sf::Keyboard::Q:       QFlag=true; break;
               default : break;
               }
@@ -107,6 +113,7 @@ int main()
 
         rob->move(&x,&y,upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
         support->move_line(&angle,AFlag, QFlag, &line);
+        //support->rotation_support(&x_laser_1,&y_laser_1,&angle, AFlag, QFlag, &line);
 
 
         // Check screen boundaries
@@ -120,7 +127,7 @@ int main()
         sprite.setTextureRect(rectSourceSprite);
         sprite.setPosition(x,y);
         shape.setPosition(support->x,support->y);
-        line.setPosition(support->x_laser_1,support->y_laser_1);
+        line.setPosition(x_laser_1,y_laser_1);
 
         window.draw(fond);
         window.draw(sprite);
