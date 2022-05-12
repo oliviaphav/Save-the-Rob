@@ -8,12 +8,7 @@
 class Laser {
   public :
 
-    Laser(float angle){
-      this->angle=angle;
-      longueur = 1480;
-      largeur = 10;
-      etat= true;
-    }
+    Laser(float a) : angle(a), longueur(1480),largeur(10),etat(true){}
     void allumer();
     void eteindre();
 
@@ -23,7 +18,6 @@ class Laser {
     float angle;
     float longueur;
     float largeur;
-    //Vector2f direction;
     bool etat;
 
 };

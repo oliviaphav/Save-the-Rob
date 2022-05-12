@@ -3,9 +3,11 @@
 #include <math.h>
 #include "robot.hpp"
 #include "support.hpp"
+#include "mur.hpp"
 #include "laser.hpp"
 #include "point.hpp"
-#include <SFML/Window/Keyboard.hpp>
+#include "porte_laser.hpp"
+
 #define SPRITE_SPEED 1
 
 #define DECALAGE 50
@@ -32,6 +34,7 @@ int main()
     texture1.setSmooth(true);
 
     sf::Sprite fond;
+    fond.scale(3.f, 3.f);
     fond.setTexture(texture);
 
     sf::IntRect rectSourceSprite(0,0,54,50);
@@ -48,8 +51,8 @@ int main()
     int x=centre.getX();
     int y=centre.getY();
 
-    int x_cer = window.getSize().x/2.;
-    int y_cer = window.getSize().y/2.;
+    int x_cer = centre.getX();
+    int y_cer = centre.getY();
 
 
     // Flags for key pressed
@@ -60,11 +63,14 @@ int main()
     bool AFlag=false;
     bool QFlag=false;
 
-    int angle=0;
+
     Robot* rob = new Robot();
-    Support* support = new Support(centre.getX(),centre.getY());
+    Support* support = new Support(centre);
     Laser* laser1 = new Laser(90);
     Laser* laser2 = new Laser(0);
+    Porte_laser* pl1 = new Porte_laser(support->pos_pl1,90);
+    Porte_laser* pl2 = new Porte_laser(support->pos_pl2,0);
+    Mur *mur = new Mur(centre);
 
     sf::RectangleShape line1(sf::Vector2f(laser1->longueur, laser1->largeur));
     line1.setFillColor(sf::Color(250, 50, 50));
@@ -75,31 +81,29 @@ int main()
     line2.rotate(laser2->angle);
 
 
-    sf::CircleShape shape(support->rayon);
+    sf::CircleShape shape_support(support->rayon);
     //shape.setFillColor(sf::Color::Transparent);
-    shape.setTexture(&texture2);
-    shape.setTextureRect(sf::IntRect(300, 100, 1000, 1000));
-    shape.setOrigin(support->rayon,support->rayon);
+    shape_support.setTexture(&texture2);
+    shape_support.setTextureRect(sf::IntRect(300, 100, 1000, 1000));
+    shape_support.setOrigin(support->rayon,support->rayon);
 
-    //shape.setOutlineThickness(10);
-    //shape.setOutlineColor(sf::Color(250, 50, 50));
+    sf::RectangleShape cube1(sf::Vector2f(50, 50));
+    cube1.setFillColor(sf::Color(250, 50, 50));
+    cube1.setOrigin(0,support->rayon);
 
-    float x_laser_1 = support->x_laser_1;
-    float y_laser_1 = support->y_laser_1;
-
-    float x_laser_2 = support->x_laser_2;
-    float y_laser_2 = support->y_laser_2;
-
-    sf::CircleShape cer1(30);
-    cer1.setFillColor(sf::Color(250, 50, 50));
-    cer1.setOrigin(0,support->rayon);
-
-    sf::CircleShape cer2(30);
-    cer2.setFillColor(sf::Color(250, 50, 50));
-    cer2.setOrigin(support->rayon,0);
+    sf::RectangleShape cube2(sf::Vector2f(50,50));
+    cube2.setFillColor(sf::Color(250, 50, 50));
+    cube2.setOrigin(support->rayon,0);
 
     line1.setOrigin(laser1->longueur/2,0);
     line2.setOrigin(laser2->longueur/2,0);
+
+    sf::CircleShape shape_mur(mur->rayon);
+    shape_mur.setFillColor(sf::Color::Transparent);
+    shape_mur.setOrigin(mur->rayon,mur->rayon);
+
+    shape_mur.setOutlineThickness(10);
+    shape_mur.setOutlineColor(sf::Color(255, 255, 255));
 
 
     while (window.isOpen())
@@ -148,38 +152,51 @@ int main()
       }
 
         rob->move(&x,&y,upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
-        //support->move_line(&angle,AFlag, QFlag, &line1);
-        //support->move_line(&angle,AFlag, QFlag, &line2);
 
-        support->rotation_support(&angle, AFlag, QFlag, &shape);
-        //support->move_cercle(&angle, AFlag, QFlag,&cer1 );
-        //support->move_cercle(&angle, AFlag, QFlag,&cer2 );
+        support->rotation_support(AFlag, QFlag, &shape_support);
 
-        support->move_laser(&angle, AFlag, QFlag,&line1,&cer1);
-        support->move_laser(&angle, AFlag, QFlag,&line2,&cer2);
+        support->move_laser(AFlag, QFlag,&line1,&cube1);
+        support->move_laser(AFlag, QFlag,&line2,&cube2);
+
+        sf::FloatRect boundingBox = sprite.getGlobalBounds();
+
+        sf::FloatRect otherBox = line1.getGlobalBounds();
+        sf::FloatRect otherBox2 = line2.getGlobalBounds();
+        if (boundingBox.intersects(otherBox))
+        {
+          printf("Collision line 1\n");
+        }
+
+        if (boundingBox.intersects(otherBox2))
+        {
+          printf("Collision line 2\n");
+        }
+
 
 
         // Check screen boundaries
         if (x<0) x=0;
-        if (x>((int)window.getSize().x)-20) x=((window.getSize().x)-20);
+        if ((x + sprite.getGlobalBounds().width) > WINDOW_WIDTH) x=(WINDOW_WIDTH-sprite.getGlobalBounds().width);
         if (y<0) y=0;
-        if (y>((int)window.getSize().y)-20) y=((window.getSize().y)-20);
+        if ((y + sprite.getGlobalBounds().height) > WINDOW_HEIGHT) y=(WINDOW_HEIGHT-sprite.getGlobalBounds().height);
 
         window.clear();
         // Rotate and draw the sprite
         sprite.setTextureRect(rectSourceSprite);
         sprite.setPosition(x,y);
-        shape.setPosition(support->x,support->y);
-        line1.setPosition(support->x,support->y);
-        line2.setPosition(support->x,support->y);
+        shape_support.setPosition(centre.getX(),centre.getY());
+        shape_mur.setPosition(centre.getX(),centre.getY());
+        line1.setPosition(centre.getX(),centre.getY());
+        line2.setPosition(centre.getX(),centre.getY());
 
-        cer1.setPosition(x_cer,y_cer);
-        cer2.setPosition(x_cer,y_cer);
+        cube1.setPosition(centre.getX(),centre.getY());
+        cube2.setPosition(centre.getX(),centre.getY());
 
         window.draw(fond);
-        window.draw(shape);
-        window.draw(cer1);
-        window.draw(cer2);
+        window.draw(shape_support);
+        window.draw(shape_mur);
+        window.draw(cube1);
+        window.draw(cube2);
         window.draw(line1);
         window.draw(line2);
         window.draw(sprite);

@@ -8,15 +8,10 @@
 class Robot {
   public :
 
-    Robot(){
-      x=0;
-      y=0;
-      vitesse=1;
-      vie=true;
-    };
+    Robot() : x(0),y(0),vitesse(1),vie(true){}
     void move(int* x, int* y, bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite);
 
-  private :
+  //private :
     float vitesse;
     bool vie;
     float x;
