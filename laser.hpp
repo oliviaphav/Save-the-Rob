@@ -8,10 +8,10 @@
 class Laser {
   public :
 
-    Laser(){
-      angle=90;
-      longueur = 750;
-      largeur = 5;
+    Laser(float angle){
+      this->angle=angle;
+      longueur = 1480;
+      largeur = 10;
       etat= true;
     }
     void allumer();

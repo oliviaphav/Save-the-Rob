@@ -4,6 +4,7 @@
 #include "robot.hpp"
 #include "support.hpp"
 #include "laser.hpp"
+#include "point.hpp"
 #include <SFML/Window/Keyboard.hpp>
 #define SPRITE_SPEED 1
 
@@ -18,7 +19,6 @@ int main()
     sf::Texture texture;
     if (!texture.loadFromFile("ressources/fond.jpg"))
       return -1;
-
 
 
     sf::Texture texture1;
@@ -41,13 +41,15 @@ int main()
     sprite.setScale(4.f, 4.f);
     sf::Clock timer;
 
+
+    Point centre(window.getSize().x/2.,window.getSize().y/2.);
+
     // Sprite coordinates
-    int x=window.getSize().x/2.;
-    int y=window.getSize().y/2.;
+    int x=centre.getX();
+    int y=centre.getY();
 
     int x_cer = window.getSize().x/2.;
-    int y_cer = 2;
-
+    int y_cer = window.getSize().y/2.;
 
 
     // Flags for key pressed
@@ -60,11 +62,18 @@ int main()
 
     int angle=0;
     Robot* rob = new Robot();
-    Support* support = new Support(window.getSize().x/2.,window.getSize().y/2.);
-    Laser* laser1 = new Laser();
+    Support* support = new Support(centre.getX(),centre.getY());
+    Laser* laser1 = new Laser(90);
+    Laser* laser2 = new Laser(0);
 
-    sf::RectangleShape line(sf::Vector2f(laser1->longueur, laser1->largeur));
-    line.rotate(laser1->angle);
+    sf::RectangleShape line1(sf::Vector2f(laser1->longueur, laser1->largeur));
+    line1.setFillColor(sf::Color(250, 50, 50));
+    line1.rotate(laser1->angle);
+
+    sf::RectangleShape line2(sf::Vector2f(laser2->longueur, laser2->largeur));
+    line2.setFillColor(sf::Color(250, 50, 50));
+    line2.rotate(laser2->angle);
+
 
     sf::CircleShape shape(support->rayon);
     //shape.setFillColor(sf::Color::Transparent);
@@ -78,8 +87,19 @@ int main()
     float x_laser_1 = support->x_laser_1;
     float y_laser_1 = support->y_laser_1;
 
-    sf::CircleShape cer(30);
-    cer.setFillColor(sf::Color(250, 50, 50));
+    float x_laser_2 = support->x_laser_2;
+    float y_laser_2 = support->y_laser_2;
+
+    sf::CircleShape cer1(30);
+    cer1.setFillColor(sf::Color(250, 50, 50));
+    cer1.setOrigin(0,support->rayon);
+
+    sf::CircleShape cer2(30);
+    cer2.setFillColor(sf::Color(250, 50, 50));
+    cer2.setOrigin(support->rayon,0);
+
+    line1.setOrigin(laser1->longueur/2,0);
+    line2.setOrigin(laser2->longueur/2,0);
 
 
     while (window.isOpen())
@@ -128,9 +148,15 @@ int main()
       }
 
         rob->move(&x,&y,upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
-        //support->move_line(&angle,AFlag, QFlag, &line);
+        //support->move_line(&angle,AFlag, QFlag, &line1);
+        //support->move_line(&angle,AFlag, QFlag, &line2);
 
         support->rotation_support(&angle, AFlag, QFlag, &shape);
+        //support->move_cercle(&angle, AFlag, QFlag,&cer1 );
+        //support->move_cercle(&angle, AFlag, QFlag,&cer2 );
+
+        support->move_laser(&angle, AFlag, QFlag,&line1,&cer1);
+        support->move_laser(&angle, AFlag, QFlag,&line2,&cer2);
 
 
         // Check screen boundaries
@@ -144,15 +170,19 @@ int main()
         sprite.setTextureRect(rectSourceSprite);
         sprite.setPosition(x,y);
         shape.setPosition(support->x,support->y);
-        line.setPosition(x_laser_1,y_laser_1);
+        line1.setPosition(support->x,support->y);
+        line2.setPosition(support->x,support->y);
 
-        cer.setPosition(x_cer,y_cer);
+        cer1.setPosition(x_cer,y_cer);
+        cer2.setPosition(x_cer,y_cer);
 
         window.draw(fond);
         window.draw(shape);
-        window.draw(cer);
+        window.draw(cer1);
+        window.draw(cer2);
+        window.draw(line1);
+        window.draw(line2);
         window.draw(sprite);
-        window.draw(line);
         window.display();
       }
 

@@ -20,16 +20,18 @@ void Support::rotation_support(int * angle, bool AFlag, bool QFlag, sf::CircleSh
 
 };
 
-void Support::move_line(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line)
+void Support::move_laser(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line, sf::CircleShape* cer)
 {
   if (AFlag)
   {
-    line->rotate(*angle-1);
+    line->rotate(*angle-0.2);
+    cer->rotate(*angle-0.2);
   }
 
   if (QFlag)
   {
-    line->rotate(*angle+1);
+    line->rotate(*angle+0.2);
+    cer->rotate(*angle+0.2);
 
   }
 }

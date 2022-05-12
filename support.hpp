@@ -17,11 +17,12 @@ class Support {
       x_laser_1=1000;
       y_laser_1=5;
       x_laser_2=0;
-      y_laser_2=50;
+      y_laser_2=5;
     };
 
     void rotation_support(int * angle, bool AFlag, bool QFlag, sf::CircleShape* shape);
-    void move_line(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line);
+    void move_laser(int* angle, bool AFlag, bool QFlag, sf::RectangleShape* line, sf::CircleShape* cer);
+    //void move_cercle(int* angle, bool AFlag, bool QFlag,sf::CircleShape* cer );
 
   //private :
     float rayon;
