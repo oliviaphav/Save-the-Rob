@@ -4,19 +4,31 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
-#include "point.hpp"
+#include "obstacle.hpp"
 
 
-class Mur {
+class Mur : public Obstacle {
   public :
-
-    Mur(const Point& c) : centre(c), rayon(740) {}
-    const Point& getCentre() const  {return centre; };
+    Mur(){
+      x=0;
+      y=0;
+      rayon=740;
+      shape_mur = new sf::CircleShape;
+    }
+    Mur(float X, float Y,sf::CircleShape *s){
+      x=X;
+      y=Y;
+      rayon=740;
+      shape_mur = s;
+    }
     const float& getRayon() const {return rayon; };
 
-  //private :
+    void settings() const;
+    //void settings();
+
+  protected :
     float rayon;
-    Point centre;
+    sf::CircleShape* shape_mur;
 
 };
 

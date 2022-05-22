@@ -4,21 +4,31 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
+#include "arme.hpp"
 
-class Laser {
+class Laser : public Arme {
   public :
 
-    Laser(float a) : angle(a), longueur(1480),largeur(10),etat(true){}
+    Laser(){
+      angle=0;
+      longueur=1480;
+      largeur=10;
+      laser = new sf::RectangleShape;
+    }
+
+    Laser(float Angle,int Longueur, int Largueur, sf::RectangleShape *Laser){
+      angle=Angle;
+      longueur=Longueur;
+      largeur=Largueur;
+      laser = Laser;
+    }
     void allumer();
     void eteindre();
+    void settings() const;
 
 
-  //private :
-
-    float angle;
-    float longueur;
+  protected :
     float largeur;
-    bool etat;
 
 };
 

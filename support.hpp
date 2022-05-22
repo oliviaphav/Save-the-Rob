@@ -4,25 +4,50 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
-#include "point.hpp"
+#include "joueur.hpp"
+#include "porte_arme.hpp"
 
 
-class Support {
+class Support : public Joueur {
   public :
+  Support(){
+    x=0;
+    y=0;
+    angle=0;
+    vitesse=0;
+    shape_support = new sf::CircleShape;
+    texture = new sf::Texture;
+    rayon=740;
+    PL1 = new Porte_arme();
+    PL2 = new Porte_arme();
+  }
+    Support(float X,float Y,int Angle, sf::CircleShape *s,sf::Texture *t,sf::RectangleShape *cube1, sf::RectangleShape *cube2, Arme* a1, Arme* a2) {
+      x=X;
+      y=Y;
+      angle=Angle;
+      shape_support=s;
+      texture=t;
+      rayon=740;
+      PL1 = new Porte_arme(rayon,0,cube1, a1);
+      PL2 = new Porte_arme(0,rayon,cube2, a2);
+      vitesse=0.5;
 
-    Support(const Point& c) : centre(c), rayon(740), direction(0), pos_pl1(740,0),pos_pl2(0,740){}
-    const Point& getCentre() const  {return centre; };
+    }
+    const float& getX() const  {return x; };
+    const float& getY() const  {return y; };
     const float& getRayon() const {return rayon; };
+    //void affichage() const;
+    void settings() const;
 
-    void rotation_support(bool AFlag, bool QFlag, sf::CircleShape* shape);
-    void move_laser(bool AFlag, bool QFlag, sf::RectangleShape* line, sf::RectangleShape* cube);
+    void deplacement(bool AFlag, bool QFlag);
+    //void move_arme(bool AFlag, bool QFlag, sf::RectangleShape* line, sf::RectangleShape* cube);
 
-  //private :
+  protected :
     float rayon;
-    Point centre;
-    int direction;
-    sf::Vector2f pos_pl1;
-    sf::Vector2f pos_pl2;
+    Porte_arme* PL1;
+    Porte_arme* PL2;
+    float angle;
+    sf::CircleShape* shape_support;
 
 };
 
