@@ -6,6 +6,9 @@
 #include <math.h>
 #include "arme.hpp"
 
+using namespace sf;
+using namespace std;
+
 class Laser : public Arme {
   public :
 
@@ -13,11 +16,11 @@ class Laser : public Arme {
       angle=0;
       longueur=1480;
       largeur=10;
-      laser = new sf::RectangleShape;
+      laser = new RectangleShape;
       etat=false;
     }
 
-    Laser(float Angle,int Longueur, int Largueur, sf::RectangleShape *Laser){
+    Laser(float Angle,int Longueur, int Largueur, RectangleShape *Laser){
       angle=Angle;
       longueur=Longueur;
       largeur=Largueur;

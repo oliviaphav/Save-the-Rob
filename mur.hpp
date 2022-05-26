@@ -6,19 +6,25 @@
 #include <math.h>
 #include "obstacle.hpp"
 
+#define DECALAGE 400
+#define WINDOW_WIDTH VideoMode::getDesktopMode().width //Largeur de l'écran
+#define WINDOW_HEIGHT (VideoMode::getDesktopMode().height - DECALAGE)  //Hauteur de l'écran
+
+using namespace sf;
+using namespace std;
 
 class Mur : public Obstacle {
   public :
     Mur(){
       x=0;
       y=0;
-      rayon=740;
-      shape_mur = new sf::CircleShape;
+      rayon=WINDOW_HEIGHT/2;
+      shape_mur = new CircleShape;
     }
-    Mur(float X, float Y,sf::CircleShape *s){
+    Mur(float X, float Y,CircleShape *s){
       x=X;
       y=Y;
-      rayon=740;
+      rayon=WINDOW_HEIGHT/2;
       shape_mur = s;
     }
     const float& getRayon() const {return rayon; };
@@ -28,7 +34,7 @@ class Mur : public Obstacle {
 
   protected :
     float rayon;
-    sf::CircleShape* shape_mur;
+    CircleShape* shape_mur;
 
 };
 

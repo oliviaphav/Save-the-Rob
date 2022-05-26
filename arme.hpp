@@ -6,12 +6,15 @@
 #include <math.h>
 #include "entite.hpp"
 
+using namespace sf;
+using namespace std;
+
 class Arme : public Entite {
 
   public :
   virtual void settings() const=0;
 
-  sf::RectangleShape* laser;
+  RectangleShape* laser;
   float longueur;
   bool etat;
 

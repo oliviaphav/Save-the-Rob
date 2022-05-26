@@ -7,14 +7,17 @@
 #include "obstacle.hpp"
 #include "arme.hpp"
 
+using namespace sf;
+using namespace std;
+
 class Porte_arme : public Obstacle {
   public :
     Porte_arme(){
       x=0;
       y=0;
-      porte_arme = new sf::RectangleShape;
+      porte_arme = new RectangleShape;
     }
-    Porte_arme(float X, float Y, sf::RectangleShape* cube, Arme* a){
+    Porte_arme(float X, float Y, RectangleShape* cube, Arme* a){
       x = X;
       y = Y;
       porte_arme = cube;
@@ -25,7 +28,7 @@ class Porte_arme : public Obstacle {
     //void settings();
 
   //protected:
-    sf::RectangleShape* porte_arme;
+    RectangleShape* porte_arme;
     Arme* arme;
 
 };

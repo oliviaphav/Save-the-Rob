@@ -6,6 +6,9 @@
 #include <math.h>
 #include "joueur.hpp"
 
+using namespace sf;
+using namespace std;
+
 class Robot : public Joueur {
 
 public :
@@ -13,24 +16,26 @@ public :
       x=0;
       y=0;
       vitesse=1;
-      sprite = new sf::Sprite;
-      texture = new sf::Texture;
+      sprite = new Sprite;
+      texture = new Texture;
+      life=true;
     }
 
-    Robot(float X, float Y, float Vitesse,sf::Sprite *s , sf::Texture *t){
+    Robot(float X, float Y, float Vitesse,Sprite *s , Texture *t){
       x=X;
       y=Y;
       sprite = s;
       texture = t;
       vitesse=Vitesse;
+      life=true;
     }
-    void deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite);
+    void deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, IntRect* rectSourceSprite);
     void settings() const;
-    void collision(sf::FloatRect* R1 , sf::RectangleShape* R2);
+    void collision(FloatRect* R1 , RectangleShape* R2);
 
 
   protected :
-    sf::Sprite* sprite;
+    Sprite* sprite;
 };
 
 

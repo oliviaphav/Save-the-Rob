@@ -12,7 +12,7 @@
 
 void Porte_arme::settings() const
 {
-  porte_arme->setFillColor(sf::Color(250, 50, 50));
+  porte_arme->setFillColor(Color(250, 50, 50));
   //porte_arme->setOrigin(740,0);
   porte_arme->setPosition(x,y);
 }

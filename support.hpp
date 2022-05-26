@@ -7,6 +7,13 @@
 #include "joueur.hpp"
 #include "porte_arme.hpp"
 
+using namespace sf;
+using namespace std;
+
+#define DECALAGE 400
+#define WINDOW_WIDTH VideoMode::getDesktopMode().width //Largeur de l'écran
+#define WINDOW_HEIGHT (VideoMode::getDesktopMode().height - DECALAGE)  //Hauteur de l'écran
+
 
 class Support : public Joueur {
   public :
@@ -15,22 +22,24 @@ class Support : public Joueur {
     y=0;
     angle=0;
     vitesse=0;
-    shape_support = new sf::CircleShape;
-    texture = new sf::Texture;
-    rayon=740;
+    shape_support = new CircleShape;
+    texture = new Texture;
+    rayon=(WINDOW_HEIGHT/2);
     PL1 = new Porte_arme();
     PL2 = new Porte_arme();
+    life=true;
   }
-    Support(float X,float Y,int Angle, sf::CircleShape *s,sf::Texture *t,sf::RectangleShape *cube1, sf::RectangleShape *cube2, Arme* a1, Arme* a2) {
+    Support(float X,float Y,int Angle, CircleShape *s,Texture *t,RectangleShape *cube1, RectangleShape *cube2, Arme* a1, Arme* a2) {
       x=X;
       y=Y;
       angle=Angle;
       shape_support=s;
       texture=t;
-      rayon=740;
+      rayon=(WINDOW_HEIGHT/2);
       PL1 = new Porte_arme(rayon,0,cube1, a1);
       PL2 = new Porte_arme(0,rayon,cube2, a2);
       vitesse=0.2;
+      life=true;
 
     }
     const float& getRayon() const {return rayon; };
@@ -47,7 +56,7 @@ class Support : public Joueur {
     //Porte_arme* PL1;
     //Porte_arme* PL2;
     float angle;
-    sf::CircleShape* shape_support;
+    CircleShape* shape_support;
 
 };
 

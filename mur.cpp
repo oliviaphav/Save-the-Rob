@@ -11,11 +11,11 @@
 
 void Mur::settings() const
 {
-  shape_mur->setFillColor(sf::Color::Transparent);
+  shape_mur->setFillColor(Color::Transparent);
   shape_mur->setOrigin(rayon,rayon);
 
   shape_mur->setOutlineThickness(10);
-  shape_mur->setOutlineColor(sf::Color(255, 255, 255));
+  shape_mur->setOutlineColor(Color(255, 255, 255));
 
   shape_mur->setPosition(x,y);
 }

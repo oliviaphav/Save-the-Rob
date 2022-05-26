@@ -6,6 +6,9 @@
 #include <math.h>
 #include "entite.hpp"
 
+using namespace sf;
+using namespace std;
+
 class Joueur : public Entite{
 
   public :
@@ -17,13 +20,15 @@ class Joueur : public Entite{
     virtual void settings() const=0;
     const float& getX() const  {return x; };
     const float& getY() const  {return y; };
+    const bool& getLife() const  {return life; };
 
 
   protected :
   float x; float y;
   //string nom;
-  sf::Texture *texture;
+  Texture *texture;
   float vitesse;
+  bool life;
 
 
 };

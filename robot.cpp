@@ -4,19 +4,19 @@
 #include "robot.hpp"
 
 #define SPRITE_SPEED 1
-#define DECALAGE 50
-#define WINDOW_WIDTH sf::VideoMode::getDesktopMode().width //Largeur de l'écran
-#define WINDOW_HEIGHT sf::VideoMode::getDesktopMode().height - DECALAGE //Hauteur de l'écran
+#define DECALAGE 400
+#define WINDOW_WIDTH VideoMode::getDesktopMode().width //Largeur de l'écran
+#define WINDOW_HEIGHT VideoMode::getDesktopMode().height - DECALAGE //Hauteur de l'écran
 
 
-void Robot::deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite)
+void Robot::deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, IntRect* rectSourceSprite)
 {
   float leftside, topside, rightside, bottomside;
   leftside=x;
   topside=y;
   rightside = x + sprite->getGlobalBounds().height;
   bottomside = y + sprite->getGlobalBounds().width;
-  
+
   // Update coordinates
   if (leftFlag)
   {
@@ -78,10 +78,10 @@ void Robot::settings() const
   sprite->setPosition(x,y);
 }
 
-void Robot::collision( sf::FloatRect* R1 , sf::RectangleShape* R2 )
+void Robot::collision( FloatRect* R1 , RectangleShape* R2 )
     {
       float TL_x1,TL_y1,BR_x1,BR_y1;
-      sf::Vector2f TL2,BR2;
+      Vector2f TL2,BR2;
       TL_x1 = R1->left;
       TL_y1 = R1->top;
       BR_x1 = R1->left + R1->height;
@@ -97,5 +97,6 @@ void Robot::collision( sf::FloatRect* R1 , sf::RectangleShape* R2 )
       else
        {
           std::cout<<"Collision"<<std::endl;
+          life=false;
        }
       }
