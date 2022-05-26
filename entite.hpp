@@ -9,7 +9,7 @@ class Entite {
 
   public :
     virtual void settings() const=0;
-
+    //virtual void collision(sf::FloatRect* R1 , sf::RectangleShape* R2) const=0;
 
 };
 

@@ -30,22 +30,22 @@ class Support : public Joueur {
       rayon=740;
       PL1 = new Porte_arme(rayon,0,cube1, a1);
       PL2 = new Porte_arme(0,rayon,cube2, a2);
-      vitesse=0.5;
+      vitesse=0.2;
 
     }
-    const float& getX() const  {return x; };
-    const float& getY() const  {return y; };
     const float& getRayon() const {return rayon; };
     //void affichage() const;
     void settings() const;
 
     void deplacement(bool AFlag, bool QFlag);
-    //void move_arme(bool AFlag, bool QFlag, sf::RectangleShape* line, sf::RectangleShape* cube);
+    void on_off(bool Flag1, bool Flag2);
+    Porte_arme* PL1;
+    Porte_arme* PL2;
 
   protected :
     float rayon;
-    Porte_arme* PL1;
-    Porte_arme* PL2;
+    //Porte_arme* PL1;
+    //Porte_arme* PL2;
     float angle;
     sf::CircleShape* shape_support;
 

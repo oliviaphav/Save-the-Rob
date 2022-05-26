@@ -14,6 +14,7 @@ class Laser : public Arme {
       longueur=1480;
       largeur=10;
       laser = new sf::RectangleShape;
+      etat=false;
     }
 
     Laser(float Angle,int Longueur, int Largueur, sf::RectangleShape *Laser){
@@ -21,14 +22,16 @@ class Laser : public Arme {
       longueur=Longueur;
       largeur=Largueur;
       laser = Laser;
+      etat=false;
     }
-    void allumer();
-    void eteindre();
+    //void on_off(bool *Flag);
+
     void settings() const;
 
 
   protected :
     float largeur;
+    //bool etat;
 
 };
 

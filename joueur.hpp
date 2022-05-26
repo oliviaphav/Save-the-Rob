@@ -15,6 +15,8 @@ class Joueur : public Entite{
     }*/
     //virtual void deplacement() const=0;
     virtual void settings() const=0;
+    const float& getX() const  {return x; };
+    const float& getY() const  {return y; };
 
 
   protected :

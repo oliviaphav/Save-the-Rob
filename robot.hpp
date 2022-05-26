@@ -26,6 +26,8 @@ public :
     }
     void deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, sf::IntRect* rectSourceSprite);
     void settings() const;
+    void collision(sf::FloatRect* R1 , sf::RectangleShape* R2);
+
 
   protected :
     sf::Sprite* sprite;

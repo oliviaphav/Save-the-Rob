@@ -12,8 +12,16 @@ void Laser::settings() const
   laser->rotate(angle);
 }
 
-/*void Laser::settings()
+/*void on_off(bool *Flag)
 {
-  laser->setOrigin(longueur/2,0);
-  laser->rotate(angle);
+  if(Flag)
+  {
+    if(etat==true)
+    {
+      etat=false;
+    }
+
+    else
+     etat=true;
+  }
 }*/

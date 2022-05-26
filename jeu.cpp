@@ -13,7 +13,7 @@
     this->window = new sf::RenderWindow (sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Save the Rob !");
 }*/
 
-void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag, sf::RenderWindow &window)
+void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2, sf::RenderWindow &window)
 {
   sf::Event event;
   while (window.pollEvent(event))
@@ -34,6 +34,8 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
         case sf::Keyboard::Down:    *downFlag=true;break;
         case sf::Keyboard::Left:    *leftFlag=true; break;
         case sf::Keyboard::Right:   *rightFlag=true; break;
+        case sf::Keyboard::Num1:       *Flag1=true; break;
+        case sf::Keyboard::Num2:       *Flag2=true; break;
         case sf::Keyboard::A:       *AFlag=true;break;
         case sf::Keyboard::Q:       *QFlag=true; break;
         default : break;
@@ -51,6 +53,8 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
           case sf::Keyboard::Down:    *downFlag=false; break;
           case sf::Keyboard::Left:    *leftFlag=false; break;
           case sf::Keyboard::Right:   *rightFlag=false; break;
+          case sf::Keyboard::Num1:       *Flag1=false; break;
+          case sf::Keyboard::Num2:       *Flag2=false; break;
           case sf::Keyboard::A:       *AFlag=false; break;
           case sf::Keyboard::Q:       *QFlag=false; break;
           default : break;

@@ -10,11 +10,10 @@ class Arme : public Entite {
 
   public :
   virtual void settings() const=0;
-  void allumer();
-  void eteindre();
 
   sf::RectangleShape* laser;
   float longueur;
+  bool etat;
 
   protected :
 

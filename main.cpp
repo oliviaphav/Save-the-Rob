@@ -18,6 +18,7 @@
 #define WINDOW_WIDTH sf::VideoMode::getDesktopMode().width //Largeur de l'écran
 #define WINDOW_HEIGHT sf::VideoMode::getDesktopMode().height - DECALAGE //Hauteur de l'écran
 
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Save the Rob !");
@@ -25,8 +26,8 @@ int main()
     // Centre coordinates
     const int x=window.getSize().x/2.;
     const int y=window.getSize().y/2.;
-    std::cout<<window.getSize().x/2.<<std::endl;
-    std::cout<<window.getSize().y/2.<<std::endl;
+    std::cout<<window.getSize().x/2.<<std::endl; //1440
+    std::cout<<window.getSize().y/2.<<std::endl; //741
 
     sf::Texture texture;
     if (!texture.loadFromFile("ressources/fond.jpg"))
@@ -43,7 +44,7 @@ int main()
     sf::IntRect rectSourceSprite(0,0,54,50);
     sf::Sprite sprite(texture1,rectSourceSprite);
     sprite.setTextureRect(rectSourceSprite);
-    sprite.setScale(4.f, 4.f);
+    sprite.setScale(3.f, 3.f);
     Robot* rob = new Robot(x,y,1, &sprite , &texture1);
 
 
@@ -82,74 +83,31 @@ int main()
     bool rightFlag=false;
     bool AFlag=false;
     bool QFlag=false;
+    bool Flag1=false;
+    bool Flag2=false;
 
     while (window.isOpen())
     {
 
-      jeu->clavier(&upFlag,&downFlag,&leftFlag,&rightFlag,&AFlag, &QFlag,window);
-
-      sf::FloatRect nextPos;
+      jeu->clavier(&upFlag,&downFlag,&leftFlag,&rightFlag,&AFlag, &QFlag, &Flag1,&Flag2, window);
 
       sf::FloatRect boundingBox = sprite.getGlobalBounds();
 
-      nextPos.left=boundingBox.left+1;
-      nextPos.top=boundingBox.top+1;
+      support->on_off(Flag1,Flag2);
 
-      /*sf::FloatRect otherBox = line1.getGlobalBounds();
-      sf::FloatRect otherBox2 = line2.getGlobalBounds();
+       rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
+       rob->collision(&boundingBox,&line1);
+       rob->collision(&boundingBox,&line2);
 
-      sf::RectangleShape box(sf::Vector2f(boundingBox.height,boundingBox.width));
-      box.setFillColor(sf::Color::Transparent);
-      box.setOutlineThickness(10);
-      box.setOutlineColor(sf::Color(255, 255, 255));
 
-      sf::RectangleShape box1(sf::Vector2f(otherBox.height,otherBox.width));
-      box1.setFillColor(sf::Color::Transparent);
-      box1.setOutlineThickness(10);
-      box1.setOutlineColor(sf::Color(255, 255, 255));
-
-      if (otherBox.intersects(boundingBox))
-      {
-        std::cout << "Collision line 1" << "\n";
-      }
-
-      else if (otherBox2.intersects(boundingBox))
-      {
-        std::cout << "Collision line 2" << "\n";
-      }
-
-      else {
-
-        std::cout << "Pas de collision" << "\n";
-
-      }*/
-
-      if(((nextPos.left-window.getSize().x/2.)*(nextPos.left-window.getSize().x/2.)+
-         (nextPos.top-window.getSize().y/2.)*(nextPos.top-window.getSize().y/2.) >
-       740*740) && (nextPos.left-window.getSize().x/2.)*(nextPos.left-window.getSize().x/2.)+
-          (nextPos.top-window.getSize().y/2.)*(nextPos.top-window.getSize().y/2.) <
-        750*750)
-       {
-         
-         std::cout << "Collision Mur" << "\n";
-       }
-
-       else
-       {
-         std::cout << "Pas de collision" << "\n";
-       }
-
-      rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
       support->deplacement(AFlag, QFlag);
+
 
       window.clear();
 
       rob->settings();
       support->settings();
       mur->settings();
-
-    //  box.setPosition(sprite.getPosition().x,sprite.getPosition().y);
-    //  box1.setPosition(window.getSize().x/2.,window.getSize().y/2.);
 
 
       window.draw(fond);
@@ -158,8 +116,10 @@ int main()
       window.draw(sprite);
       window.draw(cube1);
       window.draw(cube2);
-      window.draw(line1);
-      window.draw(line2);
+      if(support->PL1->arme->etat==true)
+        window.draw(line1);
+      if(support->PL2->arme->etat==true)
+        window.draw(line2);
       //window.draw(box);
       //window.draw(box1);
       window.display();

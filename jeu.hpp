@@ -11,7 +11,7 @@ class Jeu {
     Jeu(){};
     //sf::RenderWindow *window;
     //void initFenetre();
-    void clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag, sf::RenderWindow &window);
+    void clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2, sf::RenderWindow &window);
 
   };
 
