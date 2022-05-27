@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <unistd.h>
 #include <math.h>
@@ -25,9 +26,6 @@ void Jeu::run()
   const int x=WINDOW_WIDTH/2;
   const int y=WINDOW_HEIGHT/2;
 
-  cout<<WINDOW_WIDTH/2<<endl;
-  cout<<(WINDOW_HEIGHT/2)<<endl;
-
   Texture texture;
   if (!texture.loadFromFile("ressources/fond.jpg"))
     return;
@@ -42,10 +40,9 @@ void Jeu::run()
   texture1.setSmooth(true);
   IntRect rectSourceSprite(0,0,54,50);
   Sprite sprite(texture1,rectSourceSprite);
-  sprite.setTextureRect(rectSourceSprite);
   sprite.setScale(3.f, 3.f);
 
-  Robot* rob = new Robot(x+200,y+200,1, &sprite , &texture1);
+  Robot* rob = new Robot(x,y,1, &sprite , &texture1);
 
 
   Texture texture2;
@@ -73,6 +70,12 @@ void Jeu::run()
   Font font;
   if(!font.loadFromFile("ressources/poppins.ttf"))
    return;
+
+   SoundBuffer buffer;
+   if (!buffer.loadFromFile("ressources/choc.wav"))
+    return ;
+  Sound sound_choc;
+  sound_choc.setBuffer(buffer);
 
   Text text;
   text.setFont(font);
@@ -106,16 +109,22 @@ void Jeu::run()
        rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
 
        if(support->getPorteArme1()->getArme()->getEtat()==true)
-        rob->collision(&boundingBox,&line1);
+        rob->collision(&boundingBox,&line1,&rectSourceSprite);
 
        if(support->getPorteArme2()->getArme()->getEtat()==true)
-        rob->collision(&boundingBox,&line2);
+        rob->collision(&boundingBox,&line2,&rectSourceSprite);
 
         support->deplacement(AFlag, QFlag);
 
         rob->settings();
         support->settings();
         mur->settings();
+        sprite.setTextureRect(rectSourceSprite);
+
+        if(rob->getLife()==false)
+        {
+          sound_choc.play();
+        }
       }
 
         window.clear();

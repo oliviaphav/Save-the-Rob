@@ -128,7 +128,7 @@ bool Robot::doIntersect(Point p1, Point q1, Point p2, Point q2)
     return false; // Doesn't fall in any of the above cases
 }
 
-void Robot::collision( FloatRect* R1 , RectangleShape* R2 )
+void Robot::collision( FloatRect* R1 , RectangleShape* R2, IntRect* rectSourceSprite)
     {
       Vector2f TL2,BR2;
       struct Point line_corner_1,line_corner_4;
@@ -152,6 +152,11 @@ void Robot::collision( FloatRect* R1 , RectangleShape* R2 )
      || doIntersect(sprite_corner_2, sprite_corner_3, line_corner_1, line_corner_4) )
         {
           cout<<"Collision"<<endl;
+
+          rectSourceSprite->left=403;
+          rectSourceSprite->top=250;
+          rectSourceSprite->width=75;
+          rectSourceSprite->height=75;
           life=false;
         }
 
