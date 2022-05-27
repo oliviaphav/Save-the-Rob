@@ -9,6 +9,12 @@
 using namespace sf;
 using namespace std;
 
+struct Point
+{
+  int x;
+  int y;
+};
+
 class Robot : public Joueur {
 
 public :
@@ -31,8 +37,14 @@ public :
     }
     void deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFlag, IntRect* rectSourceSprite);
     void settings() const;
+    bool onSegment(Point p, Point q, Point r);
+    int orientation(Point p, Point q, Point r);
+    bool doIntersect(Point p1, Point q1, Point p2, Point q2);
     void collision(FloatRect* R1 , RectangleShape* R2);
 
+    const Sprite* getSprite() const {return sprite;};
+
+    void setSprite(Sprite* sp) {sprite = sp;};
 
   protected :
     Sprite* sprite;
