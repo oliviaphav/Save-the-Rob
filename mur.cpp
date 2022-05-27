@@ -4,11 +4,6 @@
 #include <vector>
 #include "mur.hpp"
 
-/*void Mur::affichage() const
-{
-  shape_mur->setPosition(x,y);
-}*/
-
 void Mur::settings() const
 {
   shape_mur->setFillColor(Color::Transparent);

@@ -27,14 +27,14 @@ class Laser : public Arme {
       laser = Laser;
       etat=false;
     }
-    //void on_off(bool *Flag);
 
     void settings() const;
+    const float& getLargeur() const {return largeur;};
+    void setLargeur(float l) {largeur = l;};
 
 
   protected :
     float largeur;
-    //bool etat;
 
 };
 

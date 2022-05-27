@@ -11,12 +11,18 @@ using namespace std;
 class Jeu {
 
   public :
-    Jeu(){};
-    //RenderWindow *window;
-    //void initFenetre();
+    Jeu(){
+      end=false;
+    };
+
+    void run();
     void clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2, RenderWindow &window);
 
+  protected :
+  bool end;
+
   };
+
 
 
 

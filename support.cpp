@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
+#include <unistd.h>
 #include <vector>
 #include "support.hpp"
 
@@ -31,23 +32,23 @@ void Support::settings() const
   shape_support->setPosition(x,y);
   shape_support->rotate(angle);
 
-  PL1->porte_arme->setFillColor(Color(250, 50, 50));
-  PL1->porte_arme->setOrigin(0,rayon);
-  PL1->porte_arme->setPosition((WINDOW_WIDTH/2),(WINDOW_HEIGHT/2));
-  PL1->porte_arme->rotate(angle);
+  PL1->getShape()->setFillColor(Color(250, 50, 50));
+  PL1->getShape()->setOrigin(0,rayon);
+  PL1->getShape()->setPosition((WINDOW_WIDTH/2),(WINDOW_HEIGHT/2));
+  PL1->getShape()->rotate(angle);
 
-  PL2->porte_arme->setFillColor(Color(250, 50, 50));
-  PL2->porte_arme->setOrigin(rayon,0);
-  PL2->porte_arme->setPosition((WINDOW_WIDTH/2),(WINDOW_HEIGHT/2));
-  PL2->porte_arme->rotate(angle);
+  PL2->getShape()->setFillColor(Color(250, 50, 50));
+  PL2->getShape()->setOrigin(rayon,0);
+  PL2->getShape()->setPosition((WINDOW_WIDTH/2),(WINDOW_HEIGHT/2));
+  PL2->getShape()->rotate(angle);
 
-  PL1->arme->laser->setOrigin(rayon,0);
-  PL1->arme->laser->setPosition(x,y);
-  PL1->arme->laser->rotate(angle);
+  PL1->getArme()->getLaser()->setOrigin(rayon,0);
+  PL1->getArme()->getLaser()->setPosition(x,y);
+  PL1->getArme()->getLaser()->rotate(angle);
 
-  PL2->arme->laser->setOrigin(rayon,0);
-  PL2->arme->laser->setPosition(x,y);
-  PL2->arme->laser->rotate(angle);
+  PL2->getArme()->getLaser()->setOrigin(rayon,0);
+  PL2->getArme()->getLaser()->setPosition(x,y);
+  PL2->getArme()->getLaser()->rotate(angle);
 
 }
 
@@ -55,32 +56,34 @@ void Support::on_off(bool Flag1, bool Flag2)
 {
   if(Flag1)
   {
-    if(PL1->arme->etat==true)
+    if(PL1->getArme()->getEtat()==true )
     {
-      PL1->arme->etat=false;
-      cout<<"Laser 1 : Off"<<endl;
+      PL1->getArme()->getEtat()=false;
+      cout<<"getLaser() 1 : Off"<<endl;
     }
 
     else
     {
-      PL1->arme->etat=true;
-      cout<<"Laser 1 : On"<<endl;
+      PL1->getArme()->getEtat()=true;
+      cout<<"getLaser() 1 : On"<<endl;
     }
 
+    usleep(200000);
   }
 
   if(Flag2)
   {
-    if(PL2->arme->etat==true)
+    if(PL2->getArme()->getEtat()==true)
     {
-      PL2->arme->etat=false;
-      cout<<"Laser 2 : Off"<<endl;
+      PL2->getArme()->getEtat()=false;
+      cout<<"getLaser() 2 : Off"<<endl;
     }
 
     else
     {
-      PL2->arme->etat=true;
-      cout<<"Laser 2 : On"<<endl;
+      PL2->getArme()->getEtat()=true;
+      cout<<"getLaser() 2 : On"<<endl;
     }
+    usleep(200000);
   }
 }

@@ -12,7 +12,6 @@ class Entite {
 
   public :
     virtual void settings() const=0;
-    //virtual void collision(FloatRect* R1 , RectangleShape* R2) const=0;
 
 };
 

@@ -12,20 +12,22 @@ using namespace std;
 class Joueur : public Entite{
 
   public :
-    /*Joueur();
-    Joueur(string nom){
-      this.nom = nom;
-    }*/
-    //virtual void deplacement() const=0;
     virtual void settings() const=0;
     const float& getX() const  {return x; };
     const float& getY() const  {return y; };
+    const float& getVitesse() const  {return vitesse; };
+    const Texture* getTexture() const  {return texture; };
     const bool& getLife() const  {return life; };
+
+    void setX(float X) {x = X;};
+    void setY(float Y) {y = Y;};
+    void setTexture(Texture* t) {texture = t;};
+    void setVitesse(float v) {vitesse = v;};
+    void setLife(bool l) {life = l;};
 
 
   protected :
   float x; float y;
-  //string nom;
   Texture *texture;
   float vitesse;
   bool life;

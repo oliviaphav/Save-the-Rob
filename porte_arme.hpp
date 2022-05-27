@@ -25,9 +25,15 @@ class Porte_arme : public Obstacle {
 
     }
     void settings() const;
-    //void settings();
+    const RectangleShape* getShape() const  {return porte_arme; };
+    const Arme* getArme() const  {return arme; };
+    RectangleShape* getShape() {return porte_arme; };
+    Arme* getArme() {return arme; };
 
-  //protected:
+    void setShape(RectangleShape* s) {porte_arme = s; };
+    void setArme(Arme* a) {arme = a; };
+
+  protected:
     RectangleShape* porte_arme;
     Arme* arme;
 

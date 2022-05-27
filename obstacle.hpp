@@ -10,10 +10,14 @@ class Obstacle : public Entite{
 
   public :
     virtual void settings() const=0;
-
+    const float& getX() const  {return x; };
+    const float& getY() const  {return y; };
+    void setX(float X){x = X; };
+    void setY(float Y){y = Y; };
 
   protected :
-  float x; float y;
+  float x;
+  float y;
 
 
 };

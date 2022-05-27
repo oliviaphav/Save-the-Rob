@@ -28,9 +28,12 @@ class Mur : public Obstacle {
       shape_mur = s;
     }
     const float& getRayon() const {return rayon; };
+    const CircleShape* getShape() const {return shape_mur;};
+
+    void setRayon(float r) {rayon = r; };
+    void setShape(CircleShape* s) {shape_mur = s; };
 
     void settings() const;
-    //void settings();
 
   protected :
     float rayon;
