@@ -3,7 +3,6 @@
 #include <math.h>
 #include "robot.hpp"
 
-#define SPRITE_SPEED 1
 #define DECALAGE 400
 #define WINDOW_WIDTH VideoMode::getDesktopMode().width //Largeur de l'écran
 #define WINDOW_HEIGHT (VideoMode::getDesktopMode().height - DECALAGE) //Hauteur de l'écran
@@ -151,8 +150,6 @@ void Robot::collision( FloatRect* R1 , RectangleShape* R2, IntRect* rectSourceSp
      if (doIntersect(sprite_corner_1, sprite_corner_4, line_corner_1, line_corner_4)
      || doIntersect(sprite_corner_2, sprite_corner_3, line_corner_1, line_corner_4) )
         {
-          cout<<"Collision"<<endl;
-
           rectSourceSprite->left=403;
           rectSourceSprite->top=250;
           rectSourceSprite->width=75;
@@ -160,6 +157,4 @@ void Robot::collision( FloatRect* R1 , RectangleShape* R2, IntRect* rectSourceSp
           life=false;
         }
 
-        else
-        cout<<"Pas de collision"<<endl;
       }

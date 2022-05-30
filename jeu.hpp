@@ -17,6 +17,8 @@ class Jeu {
 
     void run();
     void clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2, RenderWindow &window);
+    const bool& getEnd() const {return end;};
+    void setEnd(bool e) {end = e;};
 
   protected :
   bool end;

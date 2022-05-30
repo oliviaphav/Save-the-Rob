@@ -21,138 +21,138 @@
 
 void Jeu::run()
 {
-  RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Save the Rob !");
-  // Centre coordinates
-  const int x=WINDOW_WIDTH/2;
-  const int y=WINDOW_HEIGHT/2;
+    RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Save the Rob !");
+    // Centre coordinates
+    const int x=WINDOW_WIDTH/2;
+    const int y=WINDOW_HEIGHT/2;
 
-  Texture texture;
-  if (!texture.loadFromFile("ressources/fond.jpg"))
-    return;
-  Sprite fond;
-  fond.scale(3.f, 3.f);
-  fond.setTexture(texture);
-
-
-  Texture texture1;
-  if (!texture1.loadFromFile("ressources/robot.png"))
-    return;
-  texture1.setSmooth(true);
-  IntRect rectSourceSprite(0,0,54,50);
-  Sprite sprite(texture1,rectSourceSprite);
-  sprite.setScale(3.f, 3.f);
-
-  Robot* rob = new Robot(x,y,1, &sprite , &texture1);
+    Texture texture;
+    if (!texture.loadFromFile("ressources/fond.jpg"))
+      return;
+    Sprite fond;
+    fond.scale(3.f, 3.f);
+    fond.setTexture(texture);
 
 
-  Texture texture2;
-  if (!texture2.loadFromFile("ressources/support.jpg"))
-    return;
-  texture1.setSmooth(true);
-  CircleShape shape_support((WINDOW_HEIGHT/2));
-  RectangleShape cube1(Vector2f(50, 50));
-  RectangleShape cube2(Vector2f(50, 50));
+    Texture texture1;
+    if (!texture1.loadFromFile("ressources/robot.png"))
+      return;
+    texture1.setSmooth(true);
+    IntRect rectSourceSprite(0,0,54,50);
+    Sprite sprite(texture1,rectSourceSprite);
+    sprite.setScale(3.f, 3.f);
 
-  RectangleShape line1(Vector2f(WINDOW_HEIGHT, 10));
-  line1.setFillColor(Color(250, 50, 50));
-  line1.rotate(90);
-  Laser* laser1=new Laser(0,WINDOW_HEIGHT,10,&line1);
-
-  RectangleShape line2(Vector2f(WINDOW_HEIGHT, 10));
-  line2.setFillColor(Color(250, 50, 50));
-  Laser* laser2=new Laser(90,WINDOW_HEIGHT,10,&line2);
-
-  Support* support = new Support(x,y,0,&shape_support,&texture2,&cube1,&cube2,laser1,laser2);
-
-  CircleShape shape_mur((WINDOW_HEIGHT/2));
-  Mur* mur = new Mur(x,y,&shape_mur);
-
-  Font font;
-  if(!font.loadFromFile("ressources/poppins.ttf"))
-   return;
-
-   SoundBuffer buffer;
-   if (!buffer.loadFromFile("ressources/choc.wav"))
-    return ;
-  Sound sound_choc;
-  sound_choc.setBuffer(buffer);
-
-  Text text;
-  text.setFont(font);
-  text.setString("Game Over \nPlayer 1 wins \nPlayer 2 loses");
-  text.setCharacterSize(60);
-  text.setFillColor(Color::White);
-  text.setOrigin(text.getLocalBounds().width/2. , text.getLocalBounds().height/2.);
+    Robot* rob = new Robot(x,y,1, &sprite , &texture1);
 
 
-  // Flags for key pressed
-  bool upFlag=false;
-  bool downFlag=false;
-  bool leftFlag=false;
-  bool rightFlag=false;
-  bool AFlag=false;
-  bool QFlag=false;
-  bool Flag1=false;
-  bool Flag2=false;
+    Texture texture2;
+    if (!texture2.loadFromFile("ressources/support.jpg"))
+      return;
+    texture1.setSmooth(true);
+    CircleShape shape_support((WINDOW_HEIGHT/2));
+    RectangleShape cube1(Vector2f(50, 50));
+    RectangleShape cube2(Vector2f(50, 50));
 
-  while (window.isOpen())
-  {
-    FloatRect boundingBox = sprite.getGlobalBounds();
-    if(rob->getLife()==false)
-      end=true;
-      clavier(&upFlag,&downFlag,&leftFlag,&rightFlag,&AFlag, &QFlag, &Flag1,&Flag2, window);
-      support->on_off(Flag1,Flag2);
+    RectangleShape line1(Vector2f(WINDOW_HEIGHT, 10));
+    line1.setFillColor(Color(250, 50, 50));
+    line1.rotate(90);
+    Laser* laser1=new Laser(0,WINDOW_HEIGHT,10,&line1);
+
+    RectangleShape line2(Vector2f(WINDOW_HEIGHT, 10));
+    line2.setFillColor(Color(250, 50, 50));
+    Laser* laser2=new Laser(90,WINDOW_HEIGHT,10,&line2);
+
+    Support* support = new Support(x,y,0,&shape_support,&texture2,&cube1,&cube2,laser1,laser2);
+
+    CircleShape shape_mur((WINDOW_HEIGHT/2));
+    Mur* mur = new Mur(x,y,&shape_mur);
+
+    Font font;
+    if(!font.loadFromFile("ressources/poppins.ttf"))
+     return;
+
+     SoundBuffer buffer;
+     if (!buffer.loadFromFile("ressources/choc.wav"))
+      return ;
+    Sound sound_choc;
+    sound_choc.setBuffer(buffer);
+
+    Text text;
+    text.setFont(font);
+    text.setString("Game Over \nPlayer 1 wins \nPlayer 2 loses");
+    text.setCharacterSize(60);
+    text.setFillColor(Color::White);
+    text.setOrigin(text.getLocalBounds().width/2. , text.getLocalBounds().height/2.);
 
 
-      if(end==false)
-      {
-       rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
+    // Flags for key pressed
+    bool upFlag=false;
+    bool downFlag=false;
+    bool leftFlag=false;
+    bool rightFlag=false;
+    bool AFlag=false;
+    bool QFlag=false;
+    bool Flag1=false;
+    bool Flag2=false;
 
-       if(support->getPorteArme1()->getArme()->getEtat()==true)
-        rob->collision(&boundingBox,&line1,&rectSourceSprite);
+    while (window.isOpen())
+    {
+      FloatRect boundingBox = sprite.getGlobalBounds();
+      if(rob->getLife()==false)
+        end=true;
+        clavier(&upFlag,&downFlag,&leftFlag,&rightFlag,&AFlag, &QFlag, &Flag1,&Flag2, window);
+        support->on_off(Flag1,Flag2);
 
-       if(support->getPorteArme2()->getArme()->getEtat()==true)
-        rob->collision(&boundingBox,&line2,&rectSourceSprite);
 
-        support->deplacement(AFlag, QFlag);
-
-        rob->settings();
-        support->settings();
-        mur->settings();
-        sprite.setTextureRect(rectSourceSprite);
-
-        if(rob->getLife()==false)
+        if(end==false)
         {
-          sound_choc.play();
+         rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
+
+         if(support->getPorteArme1()->getArme()->getEtat()==true)
+          rob->collision(&boundingBox,&line1,&rectSourceSprite);
+
+         if(support->getPorteArme2()->getArme()->getEtat()==true)
+          rob->collision(&boundingBox,&line2,&rectSourceSprite);
+
+          support->deplacement(AFlag, QFlag);
+
+          rob->settings();
+          support->settings();
+          mur->settings();
+          sprite.setTextureRect(rectSourceSprite);
+
+          if(rob->getLife()==false)
+          {
+            sound_choc.play();
+          }
         }
-      }
 
-        window.clear();
+          window.clear();
 
 
-        window.draw(fond);
-        window.draw(shape_support);
-        window.draw(shape_mur);
-        window.draw(cube1);
-        window.draw(cube2);
+          window.draw(fond);
+          window.draw(shape_support);
+          window.draw(shape_mur);
+          window.draw(cube1);
+          window.draw(cube2);
 
-        if(support->getPorteArme1()->getArme()->getEtat()==true)
-          window.draw(line1);
-        if(support->getPorteArme2()->getArme()->getEtat()==true)
-          window.draw(line2);
-        if(rob->getLife()==false)
-        {
-          text.setPosition(WINDOW_WIDTH/8. , WINDOW_HEIGHT/2);
-          window.draw(text);
-        }
-        window.draw(sprite);
-        window.draw(shape_mur);
-          window.display();
+          if(support->getPorteArme1()->getArme()->getEtat()==true)
+            window.draw(line1);
+          if(support->getPorteArme2()->getArme()->getEtat()==true)
+            window.draw(line2);
+          if(rob->getLife()==false)
+          {
+            text.setPosition(WINDOW_WIDTH/8. , WINDOW_HEIGHT/2);
+            window.draw(text);
+          }
+          window.draw(sprite);
+          window.draw(shape_mur);
+            window.display();
+  }
 
-        }
 }
 
-void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2, RenderWindow &window)
+void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2,RenderWindow &window)
 {
   Event event;
   while (window.pollEvent(event))
