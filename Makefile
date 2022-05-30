@@ -6,7 +6,9 @@ LDFLAGS=-std=c++14
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio
 
 
-all: main
+all: main tests
+
+# Application
 
 main: main.o robot.o jeu.o support.o mur.o porte_arme.o laser.o
 	$(LD) $(LDFLAGS)  main.o robot.o jeu.o support.o mur.o porte_arme.o laser.o -o main $(LIBS)
@@ -32,5 +34,28 @@ support.o: support.cpp support.hpp
 robot.o: robot.cpp robot.hpp entite.hpp joueur.hpp
 		$(CPP) $(CPPFLAGS) -c robot.cpp
 
+# Tests
+
+tests: tests_catch_robot.o robot.o tests_catch_support.o support.o porte_arme.o tests_catch_porte_arme.o tests_catch_mur.o mur.o tests_catch_laser.o laser.o
+	$(LD) $(LDFLAGS) -o tests tests_catch_robot.o robot.o tests_catch_support.o support.o porte_arme.o tests_catch_porte_arme.o tests_catch_mur.o mur.o tests_catch_laser.o laser.o $(LIBS)
+
+tests_catch_laser.o: tests_catch_laser.cpp laser.hpp catch.hpp
+	$(CPP) $(CPPFLAGS) -c tests_catch_laser.cpp
+
+tests_catch_mur.o: tests_catch_mur.cpp mur.hpp catch.hpp
+	$(CPP) $(CPPFLAGS) -c tests_catch_mur.cpp
+
+tests_catch_porte_arme.o: tests_catch_porte_arme.cpp porte_arme.hpp catch.hpp
+	$(CPP) $(CPPFLAGS) -c tests_catch_porte_arme.cpp
+
+tests_catch_support.o: tests_catch_support.cpp support.hpp porte_arme.hpp catch.hpp
+	$(CPP) $(CPPFLAGS) -c tests_catch_support.cpp
+
+
+tests_catch_robot.o: tests_catch_robot.cpp robot.hpp catch.hpp
+	$(CPP) $(CPPFLAGS) -c tests_catch_robot.cpp
+
+# Utility
+
 clean:
-	rm -f *.o main
+	rm -f *.o main tests

@@ -25,6 +25,7 @@ class Arme : public Entite {
   void setLongueur(float l) {longueur = l;};
   void setAngle(float a) {angle = a;};
   void setEtat(bool e) {etat = e;};
+  void setLaser(RectangleShape* l) {laser = l;};
 
   protected :
   RectangleShape* laser;

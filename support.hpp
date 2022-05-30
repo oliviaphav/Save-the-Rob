@@ -24,7 +24,7 @@ class Support : public Joueur {
     vitesse=0;
     shape_support = new CircleShape;
     texture = new Texture;
-    rayon=(WINDOW_HEIGHT/2);
+    rayon=10;
     PL1 = new Porte_arme();
     PL2 = new Porte_arme();
     life=true;
@@ -53,6 +53,9 @@ class Support : public Joueur {
     const float& getAngle() const {return angle; };
     const Porte_arme* getPorteArme1() const  {return PL1; };
     const Porte_arme* getPorteArme2() const  {return PL2; };
+
+    Porte_arme* getPorteArme1() {return PL1; };
+    Porte_arme* getPorteArme2() {return PL2; };
     const CircleShape* getShape() const  {return shape_support; };
 
     void setRayon(float r) {rayon = r; };
