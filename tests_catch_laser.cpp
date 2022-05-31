@@ -23,7 +23,7 @@ TEST_CASE( "Tests classe Laser", "[laser]" ) {
     REQUIRE(l2.getLongueur() == 50);
     REQUIRE(l2.getLargeur() == 20);
     REQUIRE(l2.getEtat() == false);
-    REQUIRE(l2.getLaser() == &r2);
+    REQUIRE(l2.getShape() == &r2);
 
     l1.setLongueur(30);
     REQUIRE(l1.getLongueur() == 30);
@@ -31,8 +31,8 @@ TEST_CASE( "Tests classe Laser", "[laser]" ) {
     REQUIRE(l1.getAngle() == 70);
     l1.setLargeur(50);
     REQUIRE(l1.getLargeur() == 50);
-    l1.setLaser(&r1);
-    REQUIRE(l1.getLaser() == &r1);
+    l1.setShape(&r1);
+    REQUIRE(l1.getShape() == &r1);
     l1.setEtat(true);
     REQUIRE(l1.getEtat() == true);
   }

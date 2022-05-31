@@ -7,5 +7,5 @@
 void Porte_arme::settings() const
 {
   porte_arme->setFillColor(Color(250, 50, 50));
-  porte_arme->setPosition(x,y);
+  porte_arme->setPosition((WINDOW_WIDTH/2),(WINDOW_HEIGHT/2));
 }

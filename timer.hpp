@@ -13,7 +13,7 @@ class Timer {
   public :
   Timer()
   {
-    minutes=2;
+    minutes=1;
     secondes=0;
   };
 
@@ -23,15 +23,14 @@ class Timer {
     secondes=sec;
   };
 
-  void decompte(Clock* clock, Text *time, Font *font);
-  //Text displayClock();
+  void chrono(Clock* clock, Text *time, Font *font);
 
   const int& getMin() const { return minutes;};
   const int& getSec() const { return secondes;};
 
   protected :
-  int minutes;
-  int secondes;
+    int minutes;
+    int secondes;
 };
 
 #endif

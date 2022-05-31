@@ -27,10 +27,10 @@ class Joueur : public Entite{
 
 
   protected :
-  float x; float y;
-  Texture *texture;
-  float vitesse;
-  bool life;
+    float x; float y;
+    Texture *texture;
+    float vitesse;
+    bool life;
 
 
 };

@@ -12,26 +12,26 @@ using namespace std;
 class Arme : public Entite {
 
   public :
-  virtual void settings() const=0;
+    virtual void settings() const=0;
 
-  const RectangleShape* getLaser() const {return laser;};
-  RectangleShape* getLaser() {return laser;};
+    const RectangleShape* getShape() const {return shape_arme;};
+    RectangleShape* getShape() {return shape_arme;};
 
-  const float& getLongueur() const {return longueur;};
-  const float& getAngle() const {return angle;};
-  const bool& getEtat() const {return etat;};
-  bool& getEtat() {return etat;};
+    const float& getLongueur() const {return longueur;};
+    const float& getAngle() const {return angle;};
+    const bool& getEtat() const {return etat;};
+    bool& getEtat() {return etat;};
 
-  void setLongueur(float l) {longueur = l;};
-  void setAngle(float a) {angle = a;};
-  void setEtat(bool e) {etat = e;};
-  void setLaser(RectangleShape* l) {laser = l;};
+    void setLongueur(float l) {longueur = l;};
+    void setAngle(float a) {angle = a;};
+    void setEtat(bool e) {etat = e;};
+    void setShape(RectangleShape* l) {shape_arme = l;};
 
   protected :
-  RectangleShape* laser;
-  float longueur;
-  bool etat;
-  float angle;
+    RectangleShape* shape_arme;
+    float longueur;
+    bool etat;
+    float angle;
 
 
 

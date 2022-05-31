@@ -16,8 +16,8 @@ class Obstacle : public Entite{
     void setY(float Y){y = Y; };
 
   protected :
-  float x;
-  float y;
+    float x;
+    float y;
 
 
 };

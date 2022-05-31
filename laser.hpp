@@ -20,7 +20,7 @@ class Laser : public Arme {
       angle=0;
       longueur=WINDOW_HEIGHT/2;
       largeur=10;
-      laser = new RectangleShape;
+      shape_arme = new RectangleShape;
       etat=false;
     }
 
@@ -28,7 +28,7 @@ class Laser : public Arme {
       angle=Angle;
       longueur=Longueur;
       largeur=Largueur;
-      laser = Laser;
+      shape_arme = Laser;
       etat=false;
     }
 

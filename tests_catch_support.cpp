@@ -10,7 +10,7 @@
 #define WINDOW_HEIGHT (VideoMode::getDesktopMode().height - DECALAGE) //Hauteur de l'écran
 
 
-TEST_CASE( "Support can be created, position and speed can be changed ", "[support]" ) {
+TEST_CASE( "Test classe Support", "[support]" ) {
 
     Support supp1;
     Texture t;

@@ -31,6 +31,7 @@ void Jeu::run()
     const int x=WINDOW_WIDTH/2;
     const int y=WINDOW_HEIGHT/2;
 
+    //Mise en place des textures
     Texture texture;
     if (!texture.loadFromFile("ressources/fond.jpg"))
       return;
@@ -43,55 +44,55 @@ void Jeu::run()
     if (!texture1.loadFromFile("ressources/robot.png"))
       return;
     texture1.setSmooth(true);
-    IntRect rectSourceSprite(0,0,54,50);
-    Sprite sprite(texture1,rectSourceSprite);
-    sprite.setScale(3.f, 3.f);
-
-    Robot* rob = new Robot(x,y,1, &sprite , &texture1);
 
 
     Texture texture2;
     if (!texture2.loadFromFile("ressources/support.jpg"))
       return;
-    texture1.setSmooth(true);
+    texture2.setSmooth(true);
+
+    Font font;
+    if(!font.loadFromFile("ressources/poppins.ttf"))
+      return;
+
+    SoundBuffer buffer;
+    if (!buffer.loadFromFile("ressources/choc.wav"))
+      return ;
+    Sound sound_choc;
+    sound_choc.setBuffer(buffer);
+
+    IntRect rectSourceSprite(0,0,54,50);
+    Sprite sprite(texture1,rectSourceSprite);
+    sprite.setScale(3.f, 3.f);
+
+    Text text;
+    settings_text(&text,&font);
+
+    Clock clock;
+    Text time;
+
+    // Creation d'objets
+    Robot* rob = new Robot(x,y,1, &sprite , &texture1);
+
     CircleShape shape_support((WINDOW_HEIGHT/2));
     RectangleShape cube1(Vector2f(50, 50));
     RectangleShape cube2(Vector2f(50, 50));
 
     RectangleShape line1(Vector2f(WINDOW_HEIGHT, 10));
-    line1.setFillColor(Color(250, 50, 50));
-    line1.rotate(90);
     Laser* laser1=new Laser(0,WINDOW_HEIGHT,10,&line1);
 
     RectangleShape line2(Vector2f(WINDOW_HEIGHT, 10));
-    line2.setFillColor(Color(250, 50, 50));
     Laser* laser2=new Laser(90,WINDOW_HEIGHT,10,&line2);
+
+    laser1->settings();
+    laser2->settings();
 
     Support* support = new Support(x,y,0,&shape_support,&texture2,&cube1,&cube2,laser1,laser2);
 
     CircleShape shape_mur((WINDOW_HEIGHT/2));
     Mur* mur = new Mur(x,y,&shape_mur);
 
-    Font font;
-    if(!font.loadFromFile("ressources/poppins.ttf"))
-     return;
-
-     SoundBuffer buffer;
-     if (!buffer.loadFromFile("ressources/choc.wav"))
-      return ;
-    Sound sound_choc;
-    sound_choc.setBuffer(buffer);
-
-    Text text;
-    text.setFont(font);
-    text.setString("Game Over \nPlayer 1 wins \nPlayer 2 loses");
-    text.setCharacterSize(60);
-    text.setFillColor(Color::White);
-    text.setOrigin(text.getLocalBounds().width/2. , text.getLocalBounds().height/2.);
-
-    Clock clock;
-    Text time;
-    Timer *t1 = new Timer(1,60);
+    Timer *t1 = new Timer(1,0);
 
     // Flags for key pressed
     bool upFlag=false;
@@ -106,22 +107,20 @@ void Jeu::run()
     while (window.isOpen())
     {
       FloatRect boundingBox = sprite.getGlobalBounds();
-      if(rob->getLife()==false)
+      if(rob->getLife()==false || support->getLife()==false)
         end=true;
 
         clavier(&upFlag,&downFlag,&leftFlag,&rightFlag,&AFlag, &QFlag, &Flag1,&Flag2, window);
-
 
         support->on_off(Flag1,Flag2);
 
 
         if(end==false)
         {
-
-          t1->decompte(&clock, &time, &font);
+          t1->chrono(&clock, &time, &font);
 
           if(t1->getMin()<=0 && t1->getSec()<=0)
-            rob->setLife(false);
+            support->setLife(false);
 
          rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
 
@@ -139,13 +138,16 @@ void Jeu::run()
           sprite.setTextureRect(rectSourceSprite);
 
           if(rob->getLife()==false)
-          {
             sound_choc.play();
-          }
         }
 
           window.clear();
-          time.setPosition(WINDOW_WIDTH/2+WINDOW_WIDTH/3,20);
+
+          if(rob->getLife()==false)
+            text.setString("Game Over \nPlayer 1 wins \nPlayer 2 loses");
+
+          if(support->getLife()==false)
+            text.setString("Time Out \nPlayer 1 loses \nPlayer 2 wins");
 
 
           window.draw(fond);
@@ -155,19 +157,15 @@ void Jeu::run()
           window.draw(cube1);
           window.draw(cube2);
 
-
           if(support->getPorteArme1()->getArme()->getEtat()==true)
             window.draw(line1);
           if(support->getPorteArme2()->getArme()->getEtat()==true)
             window.draw(line2);
-          if(rob->getLife()==false)
-          {
-            text.setPosition(WINDOW_WIDTH/8. , WINDOW_HEIGHT/2);
-            window.draw(text);
-          }
+
+          window.draw(text);
           window.draw(sprite);
           window.draw(shape_mur);
-            window.display();
+          window.display();
   }
 
 }
@@ -180,15 +178,14 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
       if (event.type == Event::Closed)
           window.close();
 
-  // If a key is pressed
+  // Touche pressée
     if (event.type == Event::KeyPressed)
     {
         switch (event.key.code)
         {
-        // If escape is pressed, close the application
+        // Fermeture de la fenetre
         case  Keyboard::Escape : window.close(); break;
 
-        // Process the up, down, left and right keys
         case Keyboard::Up :     *upFlag=true;break;
         case Keyboard::Down:    *downFlag=true;break;
         case Keyboard::Left:    *leftFlag=true; break;
@@ -202,12 +199,11 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
     }
 
 
-  // If a key is released
+  // Touche relachée
       if (event.type == Event::KeyReleased)
       {
           switch (event.key.code)
           {
-          // Process the up, down, left and right keys
           case Keyboard::Up :     *upFlag=false; break;
           case Keyboard::Down:    *downFlag=false; break;
           case Keyboard::Left:    *leftFlag=false; break;
@@ -223,36 +219,11 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
 
 }
 
-
-
-
-/*void Jeu::timer(int minute, int second)
+void Jeu::settings_text(Text* text, Font* font)
 {
-Clock clock;
-Time t1 = seconds(120);
-
-Text time;
-time.setFont(font);
-time.setCharacterSize(60);
-time.setFillColor(Color::White);
-time.setOrigin(time.getLocalBounds().width/2. , time.getLocalBounds().height/2.);
-
-
-    Time elapsed1 = clock.getElapsedTime();
-    int timer = 60 - elapsed1.asSeconds();
-    int minute = 0;
-    if(timer==0)
-    {
-      minute -=1;
-      timer=60;
-    }
-
-
-    string num_str(std::to_string(timer));
-    string num_str1(std::to_string(minute));
-    time.setString(num_str1 + " : " + num_str);
-
-    if(minute<=0 && timer<=0)
-      rob->setLife(false);
-
-}*/
+  text->setFont(*font);
+  text->setCharacterSize(60);
+  text->setFillColor(Color::White);
+  text->setOrigin(text->getLocalBounds().width/2. , text->getLocalBounds().height/2.);
+  text->setPosition(WINDOW_WIDTH/15 , WINDOW_HEIGHT/3);
+}

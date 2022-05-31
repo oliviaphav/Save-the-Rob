@@ -7,6 +7,10 @@
 #include "obstacle.hpp"
 #include "arme.hpp"
 
+#define DECALAGE 400
+#define WINDOW_WIDTH VideoMode::getDesktopMode().width //Largeur de l'écran
+#define WINDOW_HEIGHT (VideoMode::getDesktopMode().height - DECALAGE)  //Hauteur de l'écran
+
 using namespace sf;
 using namespace std;
 

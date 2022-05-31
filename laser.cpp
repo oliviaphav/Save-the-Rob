@@ -6,7 +6,7 @@
 
 void Laser::settings() const
 {
-  laser->setFillColor(Color(250, 50, 50));
-  laser->setOrigin(longueur/2,0);
-  laser->rotate(angle);
+  shape_arme->setFillColor(Color(250, 50, 50));
+  shape_arme->setOrigin(longueur/2,0);
+  shape_arme->rotate(angle);
 }

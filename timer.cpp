@@ -7,45 +7,30 @@
 
 #include "timer.hpp"
 
-void Timer::decompte(Clock* clock, Text* time, Font *font)
+#define DECALAGE 400
+#define WINDOW_WIDTH VideoMode::getDesktopMode().width //Largeur de l'écran
+#define WINDOW_HEIGHT (VideoMode::getDesktopMode().height - DECALAGE)  //Hauteur de l'écran
+
+void Timer::chrono(Clock* clock, Text* time, Font *font)
 {
 
   time->setFont(*font);
-  time->setCharacterSize(80);
+  time->setCharacterSize(150);
   time->setFillColor(Color::White);
   time->setOrigin(time->getLocalBounds().width/2. , time->getLocalBounds().height/2.);
 
-        Time elapsed1 = clock->getElapsedTime();
-        secondes = 60 - elapsed1.asSeconds();
-        if(secondes<0)
+  time->setPosition(WINDOW_WIDTH/2+WINDOW_WIDTH/3,WINDOW_HEIGHT/8);
+
+        if(secondes<=0)
         {
           minutes -=1;
           clock->restart();
         }
 
-  cout<<minutes <<" min | ";
-  cout <<secondes <<" sec |" <<endl;
+        Time elapsed1 = clock->getElapsedTime();
+        secondes = 60 - elapsed1.asSeconds();
 
   string min_str(std::to_string(minutes));
   string se_str(std::to_string(secondes));
   time->setString(min_str + " : " + se_str);
 }
-
-/*Text Timer::displayClock()
-{
-
-  Font font;
-  font.loadFromFile("ressources/poppins.ttf");
-
-  Text time;
-  time.setFont(font);
-  time.setCharacterSize(60);
-  time.setFillColor(Color::White);
-  time.setOrigin(time.getLocalBounds().width/2. , time.getLocalBounds().height/2.);
-
-  string min_str(std::to_string(minutes));
-  string se_str(std::to_string(secondes));
-  time.setString(min_str + " : " + se_str);
-
-  return time;
-}*/

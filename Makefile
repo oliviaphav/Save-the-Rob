@@ -39,8 +39,11 @@ robot.o: robot.cpp robot.hpp entite.hpp joueur.hpp
 
 # Tests
 
-tests: tests_catch_robot.o robot.o tests_catch_support.o support.o porte_arme.o tests_catch_porte_arme.o tests_catch_mur.o mur.o tests_catch_laser.o laser.o
-	$(LD) $(LDFLAGS) -o tests tests_catch_robot.o robot.o tests_catch_support.o support.o porte_arme.o tests_catch_porte_arme.o tests_catch_mur.o mur.o tests_catch_laser.o laser.o $(LIBS)
+tests: tests_catch_robot.o robot.o tests_catch_support.o support.o porte_arme.o tests_catch_porte_arme.o tests_catch_mur.o mur.o tests_catch_laser.o laser.o tests_catch_timer.o timer.o
+	$(LD) $(LDFLAGS) -o tests tests_catch_robot.o robot.o tests_catch_support.o support.o porte_arme.o tests_catch_porte_arme.o tests_catch_mur.o mur.o tests_catch_laser.o laser.o tests_catch_timer.o timer.o $(LIBS)
+
+tests_catch_timer.o: tests_catch_timer.cpp timer.hpp catch.hpp
+	$(CPP) $(CPPFLAGS) -c tests_catch_timer.cpp
 
 tests_catch_laser.o: tests_catch_laser.cpp laser.hpp catch.hpp
 	$(CPP) $(CPPFLAGS) -c tests_catch_laser.cpp
