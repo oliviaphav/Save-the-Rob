@@ -10,14 +10,17 @@ all: main tests
 
 # Application
 
-main: main.o robot.o jeu.o support.o mur.o porte_arme.o laser.o
-	$(LD) $(LDFLAGS)  main.o robot.o jeu.o support.o mur.o porte_arme.o laser.o -o main $(LIBS)
+main: main.o robot.o jeu.o support.o mur.o porte_arme.o laser.o timer.o
+	$(LD) $(LDFLAGS)  main.o robot.o jeu.o support.o mur.o porte_arme.o laser.o timer.o -o main $(LIBS)
 
 main.o: main.cpp
 	$(CPP) $(CPPFLAGS) -c main.cpp
 
 jeu.o: jeu.cpp jeu.hpp
 		$(CPP) $(CPPFLAGS) -c jeu.cpp
+
+timer.o: timer.cpp timer.hpp
+		$(CPP) $(CPPFLAGS) -c timer.cpp
 
 laser.o: laser.cpp laser.hpp arme.hpp
 		$(CPP) $(CPPFLAGS) -c laser.cpp

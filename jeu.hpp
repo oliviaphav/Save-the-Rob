@@ -19,6 +19,8 @@ class Jeu {
     void clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2, RenderWindow &window);
     const bool& getEnd() const {return end;};
     void setEnd(bool e) {end = e;};
+    void timer(int minute, int second);
+    void displayClock(int minute, int second);
 
   protected :
   bool end;

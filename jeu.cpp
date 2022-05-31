@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <sstream>
 #include <unistd.h>
 #include <math.h>
 #include "jeu.hpp"
@@ -13,10 +14,14 @@
 #include "porte_arme.hpp"
 #include "arme.hpp"
 #include "laser.hpp"
+#include <ctime>
+#include <string>
+#include "timer.hpp"
 
 #define DECALAGE 400
 #define WINDOW_WIDTH VideoMode::getDesktopMode().width //Largeur de l'écran
 #define WINDOW_HEIGHT (VideoMode::getDesktopMode().height - DECALAGE)  //Hauteur de l'écran
+#define STRING(num) #num
 
 
 void Jeu::run()
@@ -84,6 +89,9 @@ void Jeu::run()
     text.setFillColor(Color::White);
     text.setOrigin(text.getLocalBounds().width/2. , text.getLocalBounds().height/2.);
 
+    Clock clock;
+    Text time;
+    Timer *t1 = new Timer(1,60);
 
     // Flags for key pressed
     bool upFlag=false;
@@ -100,12 +108,21 @@ void Jeu::run()
       FloatRect boundingBox = sprite.getGlobalBounds();
       if(rob->getLife()==false)
         end=true;
+
         clavier(&upFlag,&downFlag,&leftFlag,&rightFlag,&AFlag, &QFlag, &Flag1,&Flag2, window);
+
+
         support->on_off(Flag1,Flag2);
 
 
         if(end==false)
         {
+
+          t1->decompte(&clock, &time, &font);
+
+          if(t1->getMin()<=0 && t1->getSec()<=0)
+            rob->setLife(false);
+
          rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
 
          if(support->getPorteArme1()->getArme()->getEtat()==true)
@@ -128,13 +145,16 @@ void Jeu::run()
         }
 
           window.clear();
+          time.setPosition(WINDOW_WIDTH/2+WINDOW_WIDTH/3,20);
 
 
           window.draw(fond);
           window.draw(shape_support);
+          window.draw(time);
           window.draw(shape_mur);
           window.draw(cube1);
           window.draw(cube2);
+
 
           if(support->getPorteArme1()->getArme()->getEtat()==true)
             window.draw(line1);
@@ -202,3 +222,37 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
     }
 
 }
+
+
+
+
+/*void Jeu::timer(int minute, int second)
+{
+Clock clock;
+Time t1 = seconds(120);
+
+Text time;
+time.setFont(font);
+time.setCharacterSize(60);
+time.setFillColor(Color::White);
+time.setOrigin(time.getLocalBounds().width/2. , time.getLocalBounds().height/2.);
+
+
+    Time elapsed1 = clock.getElapsedTime();
+    int timer = 60 - elapsed1.asSeconds();
+    int minute = 0;
+    if(timer==0)
+    {
+      minute -=1;
+      timer=60;
+    }
+
+
+    string num_str(std::to_string(timer));
+    string num_str1(std::to_string(minute));
+    time.setString(num_str1 + " : " + num_str);
+
+    if(minute<=0 && timer<=0)
+      rob->setLife(false);
+
+}*/
