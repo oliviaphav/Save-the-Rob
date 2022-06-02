@@ -168,6 +168,13 @@ void Jeu::run()
           window.display();
   }
 
+  free(rob);
+  free(support);
+  free(laser1);
+  free(laser2);
+  free(mur);
+  free(t1);
+
 }
 
 void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2,RenderWindow &window)

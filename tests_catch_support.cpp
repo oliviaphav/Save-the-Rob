@@ -16,7 +16,8 @@ TEST_CASE( "Test classe Support", "[support]" ) {
     Texture t;
     CircleShape s;
     RectangleShape r1,r2;
-    Laser *a1, *a2;
+    Laser *a1 = nullptr;
+    Laser *a2 = nullptr;
     Support supp2(WINDOW_WIDTH/2,WINDOW_HEIGHT/2,1,&s,&t,&r1,&r2,a1,a2);
 
     SECTION("Tests contructeurs")
@@ -35,7 +36,7 @@ TEST_CASE( "Test classe Support", "[support]" ) {
       REQUIRE(supp2.getLife() == true);
       REQUIRE(supp2.getRayon() == WINDOW_HEIGHT/2);
 
-      Porte_arme *PL1;
+      Porte_arme *PL1 =nullptr;
       supp2.setPorteArme1(PL1);
       REQUIRE(supp2.getPorteArme1()== PL1);
       //supp2.getPorteArme1()->setArme(a1);

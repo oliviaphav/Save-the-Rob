@@ -12,9 +12,9 @@
 TEST_CASE( "Tests classe Porte arme", "[porte_arme]" ) {
   Porte_arme PL1;
 
-  RectangleShape r1; Laser* a1;
+  RectangleShape r1; Laser* a1 = nullptr;
 
-  RectangleShape r2; Laser* a2;
+  RectangleShape r2; Laser* a2 = nullptr;
   Porte_arme PL2(1,1,&r2,a2);
 
   SECTION("Tests contructeurs")
