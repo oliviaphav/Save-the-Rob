@@ -12,6 +12,7 @@ using namespace std;
 class Arme : public Entite {
 
   public :
+  virtual ~Arme()=default;
     virtual void settings() const=0;
 
     const RectangleShape* getShape() const {return shape_arme;};

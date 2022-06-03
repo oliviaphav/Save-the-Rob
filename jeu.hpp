@@ -16,10 +16,10 @@ class Jeu {
     };
 
     void run();
-    void clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2, RenderWindow &window);
+    void clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2,bool *SpaceFlag, RenderWindow &window);
     const bool& getEnd() const {return end;};
     void setEnd(bool e) {end = e;};
-    void settings_text(Text *text, Font *font);
+    void settings_text(Text *text, Font *font, float x, float y);
 
   protected :
     bool end;

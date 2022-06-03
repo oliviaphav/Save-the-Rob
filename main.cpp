@@ -12,5 +12,6 @@ int main()
 {
   Jeu* jeu = new Jeu();
   jeu->run();
+  delete jeu;
     return 0;
 }

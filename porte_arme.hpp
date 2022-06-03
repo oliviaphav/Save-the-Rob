@@ -28,6 +28,11 @@ class Porte_arme : public Obstacle {
       arme = a;
 
     }
+
+    ~Porte_arme()
+    {
+      delete arme;
+    }
     void settings() const;
     const RectangleShape* getShape() const  {return porte_arme; };
     const Arme* getArme() const  {return arme; };

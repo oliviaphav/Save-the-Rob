@@ -11,6 +11,7 @@ using namespace std;
 class Entite {
 
   public :
+  virtual ~Entite()=default;
     virtual void settings() const=0;
 
 };

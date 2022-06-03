@@ -21,7 +21,6 @@
 #define DECALAGE 400
 #define WINDOW_WIDTH VideoMode::getDesktopMode().width //Largeur de l'écran
 #define WINDOW_HEIGHT (VideoMode::getDesktopMode().height - DECALAGE)  //Hauteur de l'écran
-#define STRING(num) #num
 
 
 void Jeu::run()
@@ -39,12 +38,10 @@ void Jeu::run()
     fond.scale(3.f, 3.f);
     fond.setTexture(texture);
 
-
     Texture texture1;
     if (!texture1.loadFromFile("ressources/robot.png"))
       return;
     texture1.setSmooth(true);
-
 
     Texture texture2;
     if (!texture2.loadFromFile("ressources/support.jpg"))
@@ -65,10 +62,13 @@ void Jeu::run()
     Sprite sprite(texture1,rectSourceSprite);
     sprite.setScale(3.f, 3.f);
 
-    Text text;
-    settings_text(&text,&font);
+    Text final_text;
+    settings_text(&final_text,&font, WINDOW_WIDTH/15, WINDOW_HEIGHT/3);
+    Text text_armure;
+    settings_text(&text_armure,&font, WINDOW_WIDTH/30,WINDOW_HEIGHT/8);
 
     Clock clock;
+    Clock armure_clock;
     Text time;
 
     // Creation d'objets
@@ -103,6 +103,7 @@ void Jeu::run()
     bool QFlag=false;
     bool Flag1=false;
     bool Flag2=false;
+    bool SpaceFlag=false;
 
     while (window.isOpen())
     {
@@ -110,7 +111,7 @@ void Jeu::run()
       if(rob->getLife()==false || support->getLife()==false)
         end=true;
 
-        clavier(&upFlag,&downFlag,&leftFlag,&rightFlag,&AFlag, &QFlag, &Flag1,&Flag2, window);
+        clavier(&upFlag,&downFlag,&leftFlag,&rightFlag,&AFlag, &QFlag, &Flag1,&Flag2,&SpaceFlag, window);
 
         support->on_off(Flag1,Flag2);
 
@@ -122,13 +123,16 @@ void Jeu::run()
           if(t1->getMin()<=0 && t1->getSec()<=0)
             support->setLife(false);
 
-         rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
+          rob->deplacement(upFlag,downFlag,leftFlag,rightFlag,&rectSourceSprite);
+          rob->activation_armure(SpaceFlag,&armure_clock,&rectSourceSprite,&text_armure);
 
-         if(support->getPorteArme1()->getArme()->getEtat()==true)
+         if(support->getPorteArme1()->getArme()->getEtat()==true && rob->getArmure()==false)
           rob->collision(&boundingBox,&line1,&rectSourceSprite);
 
-         if(support->getPorteArme2()->getArme()->getEtat()==true)
+         if(support->getPorteArme2()->getArme()->getEtat()==true && rob->getArmure()==false)
           rob->collision(&boundingBox,&line2,&rectSourceSprite);
+
+
 
           support->deplacement(AFlag, QFlag);
 
@@ -144,10 +148,10 @@ void Jeu::run()
           window.clear();
 
           if(rob->getLife()==false)
-            text.setString("Game Over \nPlayer 1 wins \nPlayer 2 loses");
+            final_text.setString("Game Over \nPlayer 1 wins \nPlayer 2 loses");
 
           if(support->getLife()==false)
-            text.setString("Time Out \nPlayer 1 loses \nPlayer 2 wins");
+            final_text.setString("Time Out \nPlayer 1 loses \nPlayer 2 wins");
 
 
           window.draw(fond);
@@ -156,28 +160,28 @@ void Jeu::run()
           window.draw(shape_mur);
           window.draw(cube1);
           window.draw(cube2);
+          window.draw(text_armure);
 
           if(support->getPorteArme1()->getArme()->getEtat()==true)
             window.draw(line1);
           if(support->getPorteArme2()->getArme()->getEtat()==true)
             window.draw(line2);
 
-          window.draw(text);
+          window.draw(final_text);
           window.draw(sprite);
           window.draw(shape_mur);
           window.display();
   }
 
-  free(rob);
-  free(support);
-  free(laser1);
-  free(laser2);
-  free(mur);
-  free(t1);
-
+  delete rob;
+  delete support;
+  /*delete laser1;
+  delete laser2;*/
+  delete mur;
+  delete t1;
 }
 
-void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2,RenderWindow &window)
+void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,bool *AFlag, bool *QFlag,bool *Flag1, bool *Flag2,bool *SpaceFlag,RenderWindow &window)
 {
   Event event;
   while (window.pollEvent(event))
@@ -201,6 +205,7 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
         case Keyboard::Num2:     *Flag2=true; break;
         case Keyboard::A:       *AFlag=true;break;
         case Keyboard::Q:       *QFlag=true; break;
+        case Keyboard::Space:    *SpaceFlag=true; break;
         default : break;
         }
     }
@@ -219,6 +224,7 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
           case Keyboard::Num2:     *Flag2=false; break;
           case Keyboard::A:       *AFlag=false; break;
           case Keyboard::Q:       *QFlag=false; break;
+          case Keyboard::Space:    *SpaceFlag=false; break;
           default : break;
           }
       }
@@ -226,11 +232,11 @@ void Jeu::clavier(bool *upFlag, bool *downFlag, bool *leftFlag, bool *rightFlag,
 
 }
 
-void Jeu::settings_text(Text* text, Font* font)
+void Jeu::settings_text(Text* text, Font* font, float x, float y)
 {
   text->setFont(*font);
   text->setCharacterSize(60);
   text->setFillColor(Color::White);
   text->setOrigin(text->getLocalBounds().width/2. , text->getLocalBounds().height/2.);
-  text->setPosition(WINDOW_WIDTH/15 , WINDOW_HEIGHT/3);
+  text->setPosition(x , y);
 }

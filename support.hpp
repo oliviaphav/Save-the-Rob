@@ -39,9 +39,14 @@ class Support : public Joueur {
       rayon=(WINDOW_HEIGHT/2);
       PL1 = new Porte_arme(rayon,0,cube1, a1);
       PL2 = new Porte_arme(0,rayon,cube2, a2);
-      vitesse=0.2;
+      vitesse=0.1;
       life=true;
 
+    }
+
+    ~Support(){
+      delete PL1;
+      delete PL2;
     }
 
     void settings() const;

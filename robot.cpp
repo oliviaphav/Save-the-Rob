@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
+#include <ctime>
+#include <unistd.h>
 #include "robot.hpp"
 
 
@@ -14,6 +16,8 @@ void Robot::deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFla
   float cx = WINDOW_WIDTH/2;
   float cy = WINDOW_HEIGHT/2;
 
+  rectSourceSprite->width=54;
+  rectSourceSprite->height=50;
 
   // Update coordinates
   if (leftFlag)
@@ -25,8 +29,15 @@ void Robot::deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFla
     {
       x+=vitesse;
     }
+    if(armure==true)
+    {
+      rectSourceSprite->left=300;
+      rectSourceSprite->top=140;
+    }
+    else{
     rectSourceSprite->left=0;
     rectSourceSprite->top=0;
+  }
 
   }
   if (rightFlag)
@@ -37,8 +48,15 @@ void Robot::deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFla
     {
       x-=vitesse;
     }
+    if(armure==true)
+    {
+      rectSourceSprite->left=300;
+      rectSourceSprite->top=140;
+    }
+    else{
     rectSourceSprite->left=128;
     rectSourceSprite->top=98;
+  }
   }
   if (upFlag)
   {
@@ -48,8 +66,15 @@ void Robot::deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFla
     {
       y+=vitesse;
     }
+    if(armure==true)
+    {
+      rectSourceSprite->left=300;
+      rectSourceSprite->top=140;
+    }
+    else{
     rectSourceSprite->left=0;
     rectSourceSprite->top=98;
+  }
   }
 
   if (downFlag)
@@ -60,8 +85,15 @@ void Robot::deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFla
     {
       y-=vitesse;
     }
+  if(armure==true)
+  {
+    rectSourceSprite->left=300;
+    rectSourceSprite->top=140;
+  }
+  else{
     rectSourceSprite->left=0;
     rectSourceSprite->top=98;
+  }
 
   }
 
@@ -70,6 +102,39 @@ void Robot::deplacement(bool upFlag, bool downFlag, bool leftFlag, bool rightFla
 void Robot::settings() const
 {
   sprite->setPosition(x,y);
+}
+
+void Robot::activation_armure(bool SpaceFlag, Clock* clock, IntRect* rectSourceSprite, Text* text)
+{
+
+  float end=0;
+  if(SpaceFlag && armure==false && nb_armure > 0)
+  {
+    clock->restart();
+    nb_armure--;
+  }
+  Time elapsedTime = clock->getElapsedTime();
+  end = elapsedTime.asSeconds();
+
+  if(end<3)
+  {
+    armure=true;
+    rectSourceSprite->left=300;
+    rectSourceSprite->top=140;
+    rectSourceSprite->width=65;
+    rectSourceSprite->height=65;
+
+  }
+
+  else
+    armure=false;
+
+string arme_str(std::to_string(nb_armure));
+text->setString("Armures restantes = " + arme_str);
+
+
+
+
 }
 
 

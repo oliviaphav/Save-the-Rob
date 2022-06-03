@@ -12,6 +12,7 @@ using namespace std;
 class Joueur : public Entite{
 
   public :
+  virtual ~Joueur()=default;
     virtual void settings() const=0;
     const float& getX() const  {return x; };
     const float& getY() const  {return y; };

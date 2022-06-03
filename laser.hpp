@@ -31,6 +31,7 @@ class Laser : public Arme {
       shape_arme = Laser;
       etat=false;
     }
+    ~Laser()=default;
 
     void settings() const;
     const float& getLargeur() const {return largeur;};

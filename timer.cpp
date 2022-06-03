@@ -27,8 +27,8 @@ void Timer::chrono(Clock* clock, Text* time, Font *font)
           clock->restart();
         }
 
-        Time elapsed1 = clock->getElapsedTime();
-        secondes = 60 - elapsed1.asSeconds();
+        Time elapsedTime = clock->getElapsedTime();
+        secondes = 60 - elapsedTime.asSeconds();
 
   string min_str(std::to_string(minutes));
   string se_str(std::to_string(secondes));
